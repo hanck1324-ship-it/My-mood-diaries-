@@ -1,20 +1,28 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import styles from './styles.module.css';
+import { useLayoutRouting } from './hooks/index.link.routing.hook';
+import { UrlKey, getUrlPath } from '@/commons/constants/url';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
+  const { isDiariesActive, isPicturesActive } = useLayoutRouting();
   return (
     <div className={styles.container}>
       {/* Header */}
       <header className={styles.header}>
         <div className={styles.headerInner}>
-          <div className={styles.logo}>
-            <span className={styles.logoText}>민지의 다이어리</span>
-          </div>
+          <Link href={getUrlPath(UrlKey.DiaryList)} data-testid="layout-logo">
+            <div className={styles.logo}>
+              <span className={styles.logoText}>민지의 다이어리</span>
+            </div>
+          </Link>
         </div>
       </header>
 
@@ -36,15 +44,29 @@ export default function Layout({ children }: LayoutProps) {
       <div className={styles.gap}></div>
 
       {/* Navigation */}
-      <nav className={styles.navigation}>
+      <nav className={styles.navigation} data-testid="layout-navigation">
         <div className={styles.navigationInner}>
           <div className={styles.tabContainer}>
-            <div className={styles.tabActive}>
-              <span className={styles.tabActiveText}>일기보관함</span>
-            </div>
-            <div className={styles.tab}>
-              <span className={styles.tabText}>사진보관함</span>
-            </div>
+            <Link href={getUrlPath(UrlKey.DiaryList)}>
+              <div
+                className={isDiariesActive() ? styles.tabActive : styles.tab}
+                data-testid="nav-diaries"
+              >
+                <span className={isDiariesActive() ? styles.tabActiveText : styles.tabText}>
+                  일기보관함
+                </span>
+              </div>
+            </Link>
+            <Link href={getUrlPath(UrlKey.PictureList)}>
+              <div
+                className={isPicturesActive() ? styles.tabActive : styles.tab}
+                data-testid="nav-pictures"
+              >
+                <span className={isPicturesActive() ? styles.tabActiveText : styles.tabText}>
+                  사진보관함
+                </span>
+              </div>
+            </Link>
           </div>
         </div>
       </nav>

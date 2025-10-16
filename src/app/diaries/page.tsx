@@ -1,6 +1,10 @@
 import Diaries from '@/commons/components/diaries';
 
 export default function DiariesPage() {
-  return <Diaries />;
+  return (
+    <div data-testid="diaries-page">
+      <Diaries />
+    </div>
+  );
 }
 
