@@ -47,6 +47,7 @@ export default function Layout({ children }: LayoutProps) {
             fill
             style={{ objectFit: 'cover' }}
             priority
+            sizes="1168px"
           />
         </div>
       )}

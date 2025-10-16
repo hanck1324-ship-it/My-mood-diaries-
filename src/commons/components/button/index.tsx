@@ -32,7 +32,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       .join(' ');
 
     return (
-      <button ref={ref} className={buttonClasses} data-testid="button" {...props}>
+      <button ref={ref} className={buttonClasses} {...props}>
         {children}
       </button>
     );

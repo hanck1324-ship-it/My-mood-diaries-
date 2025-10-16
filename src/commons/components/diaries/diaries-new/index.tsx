@@ -5,19 +5,20 @@ import styles from './styles.module.css';
 import { Input } from '@/commons/components/input';
 import { Button } from '@/commons/components/button';
 import { Emotion, EMOTIONS, EMOTION_META } from '@/commons/constants/enum';
+import { useModal } from '@/commons/providers/modal/modal.provider';
 
 export default function DiariesNew() {
   const [selectedEmotion, setSelectedEmotion] = useState<Emotion | null>(null);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const { closeModal } = useModal();
 
   const handleEmotionChange = (emotion: Emotion) => {
     setSelectedEmotion(emotion);
   };
 
   const handleClose = () => {
-    // 닫기 기능 구현
-    console.log('닫기');
+    closeModal();
   };
 
   const handleSubmit = () => {
@@ -26,10 +27,10 @@ export default function DiariesNew() {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} data-testid="diaries-new-modal">
       {/* header */}
       <div className={styles.header}>
-        <h2 className={styles.headerTitle}>일기쓰기</h2>
+        <h2 className={styles.headerTitle} data-testid="diaries-new-title">일기쓰기</h2>
       </div>
       <div className={styles.gap}></div>
       
@@ -94,6 +95,7 @@ export default function DiariesNew() {
           size="medium"
           onClick={handleClose}
           className={styles.closeButton}
+          data-testid="diaries-new-close-button"
         >
           닫기
         </Button>
@@ -103,6 +105,7 @@ export default function DiariesNew() {
           size="medium"
           onClick={handleSubmit}
           className={styles.submitButton}
+          data-testid="diaries-new-submit-button"
         >
           등록하기
         </Button>

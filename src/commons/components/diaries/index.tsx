@@ -8,6 +8,7 @@ import SearchBar from '@/commons/components/searchbar';
 import Button from '@/commons/components/button';
 import Pagination from '@/commons/components/pagination';
 import { Emotion, EMOTION_META } from '@/commons/constants/enum';
+import { useLinkModal } from './hooks/index.link.modal.hook';
 
 type DiaryCard = {
   id: number;
@@ -73,6 +74,8 @@ export default function Diaries() {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 10;
 
+  const { handleWriteDiary } = useLinkModal();
+
   const filterOptions = [
     { value: 'all', label: '전체' },
   ];
@@ -82,12 +85,8 @@ export default function Diaries() {
     console.log('검색:', value);
   };
 
-  const handleWriteDiary = () => {
-    console.log('일기쓰기 클릭');
-  };
-
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="diaries-container">
       <div className={styles.gap}></div>
       <div className={styles.search}>
         <div className={styles.searchLeft}>
@@ -117,6 +116,7 @@ export default function Diaries() {
           theme="light"
           onClick={handleWriteDiary}
           className={styles.writeButton}
+          data-testid="diaries-write-button"
         >
           <Image 
             src="/icons/plus_outline_light_m.svg" 
