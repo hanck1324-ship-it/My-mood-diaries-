@@ -1,5 +1,10 @@
 import { test, expect } from '@playwright/test';
 
+/**
+ * 일기 모달 연동 테스트
+ * 일기쓰기 버튼 클릭 시 모달 표시 및 닫기 기능을 테스트
+ */
+
 test.describe('Diaries - Link Modal Hook', () => {
   test('일기쓰기 버튼 클릭 시 모달이 표시되어야 한다', async ({ page }) => {
     // /diaries 페이지로 이동
