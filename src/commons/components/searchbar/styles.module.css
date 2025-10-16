@@ -1,0 +1,254 @@
+/* Base SearchBar Container Styles */
+.searchBarContainer {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-family: var(--font-geist-sans);
+  font-weight: 400;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+.searchBarContainer:focus-within {
+  outline: 2px solid var(--ring);
+  outline-offset: 0px;
+}
+
+/* Search Icon Styles */
+.searchIcon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  opacity: 0.5;
+}
+
+/* Input Styles */
+.input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  width: 100%;
+}
+
+.input::placeholder {
+  opacity: 0.5;
+}
+
+.input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Size Variants */
+.size-small {
+  height: 32px;
+  padding: 0 12px;
+  font-size: var(--typo-bodySm-size);
+  line-height: var(--typo-bodySm-line);
+  letter-spacing: var(--typo-bodySm-letter);
+  border-radius: 6px;
+  gap: 8px;
+}
+
+.size-small .searchIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.size-medium {
+  height: 40px;
+  padding: 0 16px;
+  font-size: var(--typo-bodyMd-size);
+  line-height: var(--typo-bodyMd-line);
+  letter-spacing: var(--typo-bodyMd-letter);
+  border-radius: 8px;
+  gap: 10px;
+}
+
+.size-medium .searchIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.size-large {
+  height: 48px;
+  padding: 0 20px;
+  font-size: var(--typo-bodyLg-size);
+  line-height: var(--typo-bodyLg-line);
+  letter-spacing: var(--typo-bodyLg-letter);
+  border-radius: 10px;
+  gap: 12px;
+}
+
+.size-large .searchIcon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Primary Variant - Light Theme */
+.variant-primary.theme-light {
+  background-color: #ffffff;
+  color: var(--neutral-950);
+  border-color: var(--neutral-300);
+}
+
+.variant-primary.theme-light:hover {
+  border-color: var(--neutral-400);
+}
+
+.variant-primary.theme-light:focus-within {
+  border-color: var(--primary);
+  outline-color: var(--primary);
+}
+
+.variant-primary.theme-light .input::placeholder {
+  color: var(--neutral-500);
+}
+
+/* Primary Variant - Dark Theme */
+.variant-primary.theme-dark {
+  background-color: var(--neutral-900);
+  color: var(--neutral-50);
+  border-color: var(--neutral-700);
+}
+
+.variant-primary.theme-dark:hover {
+  border-color: var(--neutral-600);
+}
+
+.variant-primary.theme-dark:focus-within {
+  border-color: var(--primary);
+  outline-color: var(--primary);
+}
+
+.variant-primary.theme-dark .input::placeholder {
+  color: var(--neutral-500);
+}
+
+.variant-primary.theme-dark .searchIcon {
+  filter: invert(1);
+}
+
+/* Secondary Variant - Light Theme */
+.variant-secondary.theme-light {
+  background-color: var(--neutral-100);
+  color: var(--neutral-950);
+  border-color: var(--neutral-200);
+}
+
+.variant-secondary.theme-light:hover {
+  background-color: var(--neutral-200);
+  border-color: var(--neutral-300);
+}
+
+.variant-secondary.theme-light:focus-within {
+  background-color: #ffffff;
+  border-color: var(--primary);
+  outline-color: var(--primary);
+}
+
+.variant-secondary.theme-light .input::placeholder {
+  color: var(--neutral-500);
+}
+
+/* Secondary Variant - Dark Theme */
+.variant-secondary.theme-dark {
+  background-color: var(--neutral-900);
+  color: var(--neutral-50);
+  border-color: var(--neutral-800);
+}
+
+.variant-secondary.theme-dark:hover {
+  background-color: var(--neutral-800);
+  border-color: var(--neutral-700);
+}
+
+.variant-secondary.theme-dark:focus-within {
+  background-color: var(--neutral-900);
+  border-color: var(--primary);
+  outline-color: var(--primary);
+}
+
+.variant-secondary.theme-dark .input::placeholder {
+  color: var(--neutral-600);
+}
+
+.variant-secondary.theme-dark .searchIcon {
+  filter: invert(1);
+}
+
+/* Tertiary Variant - Light Theme */
+.variant-tertiary.theme-light {
+  background-color: transparent;
+  color: var(--neutral-950);
+  border-color: transparent;
+  border-bottom: 2px solid var(--neutral-300);
+  border-radius: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.variant-tertiary.theme-light:hover {
+  border-bottom-color: var(--neutral-500);
+}
+
+.variant-tertiary.theme-light:focus-within {
+  border-bottom-color: var(--primary);
+  outline: none;
+}
+
+.variant-tertiary.theme-light .input::placeholder {
+  color: var(--neutral-500);
+}
+
+/* Tertiary Variant - Dark Theme */
+.variant-tertiary.theme-dark {
+  background-color: transparent;
+  color: var(--neutral-50);
+  border-color: transparent;
+  border-bottom: 2px solid var(--neutral-700);
+  border-radius: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.variant-tertiary.theme-dark:hover {
+  border-bottom-color: var(--neutral-500);
+}
+
+.variant-tertiary.theme-dark:focus-within {
+  border-bottom-color: var(--primary);
+  outline: none;
+}
+
+.variant-tertiary.theme-dark .input::placeholder {
+  color: var(--neutral-600);
+}
+
+.variant-tertiary.theme-dark .searchIcon {
+  filter: invert(1);
+}
+
+/* Desktop Typography Adjustments */
+@media (min-width: 1024px) {
+  .size-small {
+    font-size: var(--typo-bodySm-size);
+  }
+  
+  .size-medium {
+    font-size: var(--typo-bodyMd-size);
+  }
+  
+  .size-large {
+    font-size: var(--typo-bodyLg-size);
+  }
+}
+
