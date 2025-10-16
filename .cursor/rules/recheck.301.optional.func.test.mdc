@@ -1,7 +1,74 @@
 ---
-description:
+description: Playwright 테스트 조건 재검토 및 검증
 globs:
 alwaysApply: false
 ---
 
-테스트조건 재검토 요청
+# 테스트 조건 재검토 체크리스트
+
+작성된 Playwright 테스트 코드가 아래의 모든 조건을 충족하는지 검토하고, 
+충족하지 않는 항목이 있다면 수정 제안을 제공하세요.
+
+## 1. 기본 원칙
+
+- [ ] TDD 기반으로 테스트가 먼저 작성되었는가?
+- [ ] playwright.config.ts 설정을 변경하지 않았는가?
+- [ ] package.json의 scripts에 등록된 명령으로만 테스트하는가?
+
+## 2. 데이터 및 Mock 정책
+
+- [ ] Mock 데이터를 사용하지 않고 실제 데이터를 테스트에 사용하는가?
+- [ ] API 테스트가 필요한 경우, 응답 결과를 하드코딩하지 않았는가?
+
+## 3. Timeout 관련
+
+- [ ] timeout 방식 대신 다른 방식(waitForSelector, expect)이 가능한 경우 그것을 사용했는가?
+- [ ] 불가피하게 timeout을 사용해야 하는 경우, 2000ms 미만으로 설정했는가?
+
+## 4. 페이지 이동 및 Locator
+
+- [ ] page.goto()에 baseUrl(호스트와 포트)을 포함하지 않고, 경로만 사용하는가?
+  - ✅ 올바른 예: `await page.goto('/diaries');`
+  - ❌ 잘못된 예: `await page.goto('http://localhost:3000/diaries');`
+
+- [ ] HTML/CSS 선택자(page.locator)는 data-testid를 사용하는가?
+  - 이유: cssModule과의 테스트 충돌 방지
+  - ✅ 올바른 예: `page.locator('[data-testid="layout-logo"]')`
+  - ❌ 잘못된 예: `page.locator('.logo')` 또는 `page.locator('#logo')`
+
+## 5. 테스트 구조 및 가독성
+
+- [ ] test.describe()를 사용하여 관련 테스트들을 그룹화했는가?
+- [ ] test.beforeEach()를 활용하여 중복 코드를 제거했는가?
+- [ ] 각 테스트 케이스의 이름이 명확하고 한글로 작성되어 있는가?
+- [ ] 테스트 케이스가 하나의 기능만 검증하는가? (단일 책임 원칙)
+
+## 6. 대기 및 동기화
+
+- [ ] 요소가 로드될 때까지 적절히 대기하는가? (waitForSelector, toBeVisible 등)
+- [ ] React 하이드레이션이 필요한 경우 최소한의 대기(100ms)를 사용하는가?
+- [ ] 페이지 로드 시 waitUntil 옵션('domcontentloaded' 등)을 적절히 사용하는가?
+
+## 7. 검증 (Assertions)
+
+- [ ] expect()를 사용하여 실제 동작을 검증하는가?
+- [ ] URL 변경을 확인해야 하는 경우 expect(page).toHaveURL()을 사용하는가?
+- [ ] 요소의 상태(visible, class 등)를 적절히 검증하는가?
+
+## 8. 실패 케이스 및 Edge Case
+
+- [ ] 정상 케이스뿐만 아니라 비정상 케이스도 테스트하는가?
+- [ ] 경계값 테스트가 필요한 경우 이를 포함하는가?
+
+## 9. 테스트 독립성
+
+- [ ] 각 테스트가 독립적으로 실행 가능한가?
+- [ ] 테스트 간 의존성이 없는가?
+- [ ] 테스트 순서에 관계없이 성공하는가?
+
+## 검토 방법
+
+1. 위 체크리스트의 모든 항목을 검토
+2. 충족하지 않는 항목이 있다면 구체적으로 지적
+3. 수정이 필요한 코드 부분과 수정 방법 제안
+4. 수정 후 테스트가 여전히 의도한 기능을 검증하는지 확인
