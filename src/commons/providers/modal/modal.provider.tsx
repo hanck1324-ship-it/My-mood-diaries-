@@ -1,12 +1,19 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useState, useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
+import styles from "./styles.module.css";
+
+interface Modal {
+  id: string;
+  content: React.ReactNode;
+}
 
 interface ModalContextType {
   isOpen: boolean;
   openModal: (content: React.ReactNode) => void;
   closeModal: () => void;
+  modalStack: Modal[];
 }
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -24,41 +31,62 @@ export default function ModalProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<React.ReactNode>(null);
+  const [modalStack, setModalStack] = useState<Modal[]>([]);
 
+  // 모달 스택에 추가
   const openModal = useCallback((content: React.ReactNode) => {
-    setModalContent(content);
-    setIsOpen(true);
+    const newModal: Modal = {
+      id: `modal-${Date.now()}-${Math.random()}`,
+      content,
+    };
+    setModalStack((prev) => [...prev, newModal]);
   }, []);
 
+  // 모달 스택에서 마지막 모달 제거
   const closeModal = useCallback(() => {
-    setIsOpen(false);
-    setModalContent(null);
+    setModalStack((prev) => prev.slice(0, -1));
   }, []);
+
+  // 모달이 1개라도 열려있으면 body 스크롤 제거
+  useEffect(() => {
+    if (modalStack.length > 0) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [modalStack.length]);
+
+  const isOpen = modalStack.length > 0;
 
   return (
-    <ModalContext.Provider value={{ isOpen, openModal, closeModal }}>
+    <ModalContext.Provider value={{ isOpen, openModal, closeModal, modalStack }}>
       {children}
-      {isOpen &&
-        typeof window !== "undefined" &&
-        createPortal(
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center"
-            onClick={closeModal}
-          >
+      {typeof window !== "undefined" &&
+        modalStack.map((modal, index) =>
+          createPortal(
             <div
-              className="absolute inset-0 bg-black/50"
-              aria-hidden="true"
-            />
-            <div
-              className="relative z-10 bg-white dark:bg-gray-800 rounded-lg shadow-xl"
-              onClick={(e) => e.stopPropagation()}
+              key={modal.id}
+              className={styles.modalContainer}
+              style={{ zIndex: 50 + index * 10 }}
+              onClick={closeModal}
             >
-              {modalContent}
-            </div>
-          </div>,
-          document.body
+              <div
+                className={styles.backdrop}
+                aria-hidden="true"
+              />
+              <div
+                className={styles.modalContent}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {modal.content}
+              </div>
+            </div>,
+            document.body
+          )
         )}
     </ModalContext.Provider>
   );

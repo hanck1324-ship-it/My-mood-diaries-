@@ -1,29 +1,24 @@
 'use client';
 
-import { useState } from 'react';
 import styles from './styles.module.css';
 import { Input } from '@/commons/components/input';
 import { Button } from '@/commons/components/button';
-import { Emotion, EMOTIONS, EMOTION_META } from '@/commons/constants/enum';
+import { EMOTIONS, EMOTION_META } from '@/commons/constants/enum';
 import { useLinkModalClose } from './hooks/index.link.modal.close.hook';
+import { useDiaryForm } from './hooks/index.form.hook';
 
 export default function DiariesNew() {
-  const [selectedEmotion, setSelectedEmotion] = useState<Emotion | null>(null);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
   const { handleCloseWithConfirmation } = useLinkModalClose();
-
-  const handleEmotionChange = (emotion: Emotion) => {
-    setSelectedEmotion(emotion);
-  };
+  const {
+    register,
+    handleSubmit,
+    handleEmotionChange,
+    isValid,
+    watchedValues,
+  } = useDiaryForm();
 
   const handleClose = () => {
     handleCloseWithConfirmation();
-  };
-
-  const handleSubmit = () => {
-    // 등록하기 기능 구현
-    console.log('등록하기', { selectedEmotion, title, content });
   };
 
   return (
@@ -44,12 +39,12 @@ export default function DiariesNew() {
                 type="radio"
                 name="emotion"
                 value={emotion}
-                checked={selectedEmotion === emotion}
+                checked={watchedValues.emotion === emotion}
                 onChange={() => handleEmotionChange(emotion)}
                 className={styles.emotionRadioInput}
               />
               <span className={styles.emotionRadioCustom}>
-                {selectedEmotion === emotion && (
+                {watchedValues.emotion === emotion && (
                   <span className={styles.emotionRadioChecked}></span>
                 )}
               </span>
@@ -69,8 +64,7 @@ export default function DiariesNew() {
           theme="light"
           size="large"
           placeholder="제목을 입력해주세요"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          {...register('title')}
           className={styles.titleInput}
         />
       </div>
@@ -80,8 +74,7 @@ export default function DiariesNew() {
       <div className={styles.inputContent}>
         <textarea
           placeholder="내용을 입력해주세요"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
+          {...register('content')}
           className={styles.contentTextarea}
         />
       </div>
@@ -104,6 +97,7 @@ export default function DiariesNew() {
           theme="light"
           size="medium"
           onClick={handleSubmit}
+          disabled={!isValid}
           className={styles.submitButton}
           data-testid="diaries-new-submit-button"
         >

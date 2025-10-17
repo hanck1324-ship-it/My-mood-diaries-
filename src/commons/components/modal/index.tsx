@@ -60,7 +60,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
               <Button
                 variant="secondary"
                 size="large"
-                theme="light"
+                theme={theme}
                 onClick={onCancel}
                 className={styles.buttonDual}
               >
@@ -69,7 +69,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
               <Button
                 variant="primary"
                 size="large"
-                theme="light"
+                theme={theme}
                 onClick={onConfirm}
                 className={styles.buttonDual}
               >
@@ -81,7 +81,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
             <Button
               variant="primary"
               size="large"
-              theme="light"
+              theme={theme}
               onClick={onConfirm}
               className={styles.buttonSingle}
             >

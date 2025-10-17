@@ -1,16 +1,11 @@
+'use client';
+
 import Image from 'next/image';
 import styles from './styles.module.css';
 import Button from '@/commons/components/button';
 import Input from '@/commons/components/input';
-import { Emotion, EMOTION_META } from '@/commons/constants/enum';
-
-// Mock data
-const mockDiaryDetail = {
-  title: '오늘 강아지와 함께한 특별한 하루',
-  emotion: Emotion.Happy,
-  date: '2025.01.15',
-  content: '오늘은 우리 강아지와 함께 공원에 다녀왔어요. 날씨가 정말 좋아서 산책하기 딱 좋았어요. 강아지가 다른 강아지들과 신나게 뛰어노는 모습을 보니 저도 덩달아 기분이 좋아졌답니다. 앞으로도 이런 행복한 순간들이 많았으면 좋겠어요.'
-};
+import { EMOTION_META } from '@/commons/constants/enum';
+import { useDiaryDetailBinding } from './hooks/index.binding.hook';
 
 const mockRetrospects = [
   {
@@ -26,17 +21,28 @@ const mockRetrospects = [
 ];
 
 export default function DiariesDetail() {
-  const emotionMeta = EMOTION_META[mockDiaryDetail.emotion];
+  const { diary, error, isLoading, formattedDate } = useDiaryDetailBinding();
+
+  // 로딩 중이거나 에러가 있는 경우 처리
+  if (isLoading || error || !diary) {
+    return (
+      <div className={styles.container} data-testid="diary-detail-container">
+        {error && <div data-testid="diary-detail-error">{error}</div>}
+      </div>
+    );
+  }
+
+  const emotionMeta = EMOTION_META[diary.emotion];
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="diary-detail-container">
       <div className={styles.gap64}></div>
       
       {/* detail-title */}
       <div className={styles.detailTitle}>
         <div className={styles.titleSection}>
           <div className={styles.titleLeft}>
-            <h1 className={styles.titleText}>{mockDiaryDetail.title}</h1>
+            <h1 className={styles.titleText} data-testid="diary-detail-title">{diary.title}</h1>
             <div className={styles.emotionWrapper}>
               <Image 
                 src={emotionMeta.icon} 
@@ -44,11 +50,12 @@ export default function DiariesDetail() {
                 width={24}
                 height={24}
                 className={styles.emotionIcon}
+                data-testid="diary-detail-emotion-icon"
               />
-              <span className={styles.emotionText}>{emotionMeta.label}</span>
+              <span className={styles.emotionText} data-testid="diary-detail-emotion-text">{emotionMeta.label}</span>
             </div>
           </div>
-          <span className={styles.dateText}>{mockDiaryDetail.date}</span>
+          <span className={styles.dateText} data-testid="diary-detail-date">{formattedDate}</span>
         </div>
       </div>
 
@@ -56,7 +63,7 @@ export default function DiariesDetail() {
       
       {/* detail-content */}
       <div className={styles.detailContent}>
-        <p className={styles.contentText}>{mockDiaryDetail.content}</p>
+        <p className={styles.contentText} data-testid="diary-detail-content">{diary.content}</p>
         <button className={styles.copyButton}>
           <Image 
             src="/icons/copy_outline_light_m.svg"
