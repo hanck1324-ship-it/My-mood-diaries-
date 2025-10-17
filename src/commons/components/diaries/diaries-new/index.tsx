@@ -5,20 +5,20 @@ import styles from './styles.module.css';
 import { Input } from '@/commons/components/input';
 import { Button } from '@/commons/components/button';
 import { Emotion, EMOTIONS, EMOTION_META } from '@/commons/constants/enum';
-import { useModal } from '@/commons/providers/modal/modal.provider';
+import { useLinkModalClose } from './hooks/index.link.modal.close.hook';
 
 export default function DiariesNew() {
   const [selectedEmotion, setSelectedEmotion] = useState<Emotion | null>(null);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const { closeModal } = useModal();
+  const { handleCloseWithConfirmation } = useLinkModalClose();
 
   const handleEmotionChange = (emotion: Emotion) => {
     setSelectedEmotion(emotion);
   };
 
   const handleClose = () => {
-    closeModal();
+    handleCloseWithConfirmation();
   };
 
   const handleSubmit = () => {
