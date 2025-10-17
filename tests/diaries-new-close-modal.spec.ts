@@ -84,4 +84,3 @@ test.describe('DiariesNew - Close Modal Hook', () => {
     await expect(diariesNewModal).not.toBeVisible();
   });
 });
-
