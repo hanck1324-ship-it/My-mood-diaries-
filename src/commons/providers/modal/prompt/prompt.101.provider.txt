@@ -8,7 +8,7 @@
 
 ==============================================
 
-조건-파일경로) 구현될 TSX 파일경로: src/commons/providers/modal/modal.provider.tsx
+조건-파일경로) 구현될 TSX 파일경로: src/commons/providers/ 12modal/modal.provider.tsx
 
 ==============================================
 
