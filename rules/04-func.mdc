@@ -1,6 +1,6 @@
 ---
-description: 
-globs: 
+description: 기능 구현 및 테스트 규칙
+globs: ["**/*.ts", "**/*.tsx", "**/*.spec.ts"]
 alwaysApply: false
 ---
 아래의 조건 및 주의사항을 모두 적용하여 코드를 작성할 것.
@@ -33,10 +33,10 @@ alwaysApply: false
     - 이미 commons에 셋팅된 @tanstack/react-query를 사용할 것.
 
 6. TEST 조건
-    - TDD기반으로 playwright 테스트를 먼저 작성할 것.
+    - 기능 구현과 동시에 또는 구현 후 즉시 playwright 테스트를 작성할 것.
     - playwright.config.ts 설정은 변경하지 말 것.
     - playwright 테스트는 package.json의 scripts에 등록된 명령으로만 테스트 할 것.
-    - playwright 테스트에 mock 데이터 사용하지 말고, 실제 데이터를 테스트로 사용할 것.
+    - 외부 API는 MSW 등을 활용해 모킹하되, 내부 상태/로직은 실제 데이터로 테스트할 것.
     - playwright 테스트에 API 테스트가 필요한 경우, 응답 결과를 하드코딩하지 말 것.
     - 테스트에 timeout 방식의 테스트말고, 다른 방식의 테스트가 가능하면, timeout 테스트는 사용하지 말 것.
     - 테스트에 timeout 방식의 테스트가 사용되어야만 하는 경우에는, timeout 은 2000ms 미만으로 설정할 것.
