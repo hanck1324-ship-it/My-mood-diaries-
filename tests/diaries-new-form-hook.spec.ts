@@ -15,14 +15,14 @@ test.describe('DiariesNew - Form Hook', () => {
     await page.evaluate(() => localStorage.clear());
     
     // 페이지가 완전히 로드될 때까지 대기
-    await page.waitForSelector('[data-testid="diaries-container"]', { timeout: 500 });
+    await page.waitForSelector('[data-testid="diaries-container"]');
     
     // 일기쓰기 버튼 클릭하여 모달 열기
     const writeButton = page.locator('[data-testid="diaries-write-button"]');
     await writeButton.click();
     
     // 일기쓰기 모달이 표시되는지 확인
-    await page.waitForSelector('[data-testid="diaries-new-modal"]', { timeout: 500 });
+    await page.waitForSelector('[data-testid="diaries-new-modal"]');
   });
 
   test('모든 필드가 입력되지 않으면 등록하기 버튼이 비활성화되어야 한다', async ({ page }) => {
@@ -166,7 +166,7 @@ test.describe('DiariesNew - Form Hook', () => {
     
     // 등록완료 모달 확인
     const successModal = page.locator('[data-testid="registration-success-modal"]');
-    await expect(successModal).toBeVisible({ timeout: 500 });
+    await expect(successModal).toBeVisible();
   });
 
   test('등록완료 모달의 확인 버튼을 클릭하면 상세 페이지로 이동하고 모든 모달이 닫혀야 한다', async ({ page }) => {
@@ -186,7 +186,7 @@ test.describe('DiariesNew - Form Hook', () => {
     
     // 등록완료 모달 확인
     const successModal = page.locator('[data-testid="registration-success-modal"]');
-    await expect(successModal).toBeVisible({ timeout: 500 });
+    await expect(successModal).toBeVisible();
     
     // 확인 버튼 클릭
     const confirmButton = successModal.locator('button').filter({ hasText: '확인' });

@@ -35,8 +35,8 @@ testPages.forEach(({ path, name, expected }) => {
   test.describe(`${name} 페이지 영역 노출 테스트`, () => {
     test.beforeEach(async ({ page }) => {
       await page.goto(path, { waitUntil: 'domcontentloaded' });
-      // 짧은 대기로 React 하이드레이션 완료 보장
-      await page.waitForTimeout(100);
+      // React 하이드레이션 완료 대기 (header 요소가 attached될 때까지)
+      await page.waitForSelector('[data-testid="layout-header"]');
     });
 
     test(`header 영역 노출 여부 - ${expected.header ? '노출' : '미노출'}`, async ({ page }) => {

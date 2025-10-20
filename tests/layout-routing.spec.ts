@@ -22,10 +22,7 @@ test.describe('Layout Routing', () => {
     // 일기목록 페이지로 이동
     await page.goto('/diaries', { waitUntil: 'domcontentloaded' });
     
-    // 짧은 대기로 React 하이드레이션 완료 보장
-    await page.waitForTimeout(100);
-    
-    // 페이지 로드 대기
+    // 페이지 로드 대기 (navigation이 attached되고 active 클래스가 적용될 때까지)
     await page.waitForSelector('[data-testid="layout-navigation"]');
     
     // 일기보관함 탭이 이미 active 상태인지 확인
