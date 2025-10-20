@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript",
+    "plugin:storybook/recommended"
+  ],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "react/display-name": "error",
+    "react/jsx-key": "error",
+    "no-console": ["warn", { "allow": ["warn", "error"] }]
+  }
+}

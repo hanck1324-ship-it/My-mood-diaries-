@@ -1,0 +1,409 @@
+/* Base Pagination Styles */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-geist-sans);
+}
+
+/* Page Numbers Container */
+.pageNumbers {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Navigation Button (Previous/Next) */
+.navButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: none;
+  background-color: transparent;
+  padding: 0;
+}
+
+.navButton:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.navButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.navButton.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Icon Styles */
+.icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Page Button */
+.pageButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: none;
+  font-family: var(--font-geist-sans);
+  font-weight: 400;
+  min-width: 32px;
+}
+
+.pageButton:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Ellipsis */
+.ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  font-weight: 400;
+  user-select: none;
+}
+
+/* Size Variants - Navigation Buttons */
+.size-small .navButton {
+  width: 32px;
+  height: 32px;
+}
+
+.size-medium .navButton {
+  width: 40px;
+  height: 40px;
+}
+
+.size-large .navButton {
+  width: 48px;
+  height: 48px;
+}
+
+/* Size Variants - Page Buttons */
+.size-small .pageButton {
+  height: 32px;
+  padding: 0 4px;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.16px;
+  border-radius: 8px;
+  min-width: 32px;
+}
+
+.size-small .ellipsis {
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.16px;
+}
+
+.size-medium .pageButton {
+  height: 40px;
+  padding: 0 12px;
+  font-size: var(--typo-bodyMd-size);
+  line-height: var(--typo-bodyMd-line);
+  letter-spacing: var(--typo-bodyMd-letter);
+}
+
+.size-medium .ellipsis {
+  font-size: var(--typo-bodyMd-size);
+  line-height: var(--typo-bodyMd-line);
+  letter-spacing: var(--typo-bodyMd-letter);
+}
+
+.size-large .pageButton {
+  height: 48px;
+  padding: 0 16px;
+  font-size: var(--typo-bodyLg-size);
+  line-height: var(--typo-bodyLg-line);
+  letter-spacing: var(--typo-bodyLg-letter);
+  border-radius: 8px;
+}
+
+.size-large .ellipsis {
+  font-size: var(--typo-bodyLg-size);
+  line-height: var(--typo-bodyLg-line);
+  letter-spacing: var(--typo-bodyLg-letter);
+}
+
+/* Primary Variant - Light Theme */
+.variant-primary.theme-light .navButton:not(:disabled):hover {
+  background-color: var(--neutral-100);
+}
+
+.variant-primary.theme-light .navButton:not(:disabled):active {
+  background-color: var(--neutral-200);
+}
+
+.variant-primary.theme-light .pageButton {
+  background-color: #ffffff;
+  color: #777777;
+  border-color: transparent;
+}
+
+.variant-primary.theme-light .pageButton:hover {
+  background-color: var(--neutral-100);
+  color: #000000;
+}
+
+.variant-primary.theme-light .pageButton:active {
+  background-color: var(--neutral-200);
+  color: #000000;
+}
+
+.variant-primary.theme-light .pageButton.active {
+  background-color: #f2f2f2;
+  color: #000000;
+  border-color: transparent;
+  font-weight: 500;
+}
+
+.variant-primary.theme-light .pageButton.active:hover {
+  background-color: var(--neutral-200);
+}
+
+.variant-primary.theme-light .ellipsis {
+  color: #777777;
+}
+
+/* Primary Variant - Dark Theme */
+.variant-primary.theme-dark .navButton:not(:disabled):hover {
+  background-color: var(--neutral-800);
+}
+
+.variant-primary.theme-dark .navButton:not(:disabled):active {
+  background-color: var(--neutral-700);
+}
+
+.variant-primary.theme-dark .pageButton {
+  background-color: var(--neutral-900);
+  color: var(--neutral-400);
+  border-color: transparent;
+}
+
+.variant-primary.theme-dark .pageButton:hover {
+  background-color: var(--neutral-800);
+  color: var(--neutral-100);
+}
+
+.variant-primary.theme-dark .pageButton:active {
+  background-color: var(--neutral-700);
+  color: var(--neutral-50);
+}
+
+.variant-primary.theme-dark .pageButton.active {
+  background-color: var(--neutral-700);
+  color: var(--neutral-50);
+  border-color: transparent;
+  font-weight: 500;
+}
+
+.variant-primary.theme-dark .pageButton.active:hover {
+  background-color: var(--neutral-600);
+}
+
+.variant-primary.theme-dark .ellipsis {
+  color: var(--neutral-500);
+}
+
+/* Secondary Variant - Light Theme */
+.variant-secondary.theme-light .navButton:not(:disabled):hover {
+  background-color: var(--neutral-100);
+}
+
+.variant-secondary.theme-light .navButton:not(:disabled):active {
+  background-color: var(--neutral-200);
+}
+
+.variant-secondary.theme-light .pageButton {
+  background-color: var(--neutral-100);
+  color: #777777;
+  border-color: var(--neutral-200);
+}
+
+.variant-secondary.theme-light .pageButton:hover {
+  background-color: var(--neutral-200);
+  color: #000000;
+}
+
+.variant-secondary.theme-light .pageButton:active {
+  background-color: var(--neutral-300);
+  color: #000000;
+}
+
+.variant-secondary.theme-light .pageButton.active {
+  background-color: var(--neutral-950);
+  color: #ffffff;
+  border-color: var(--neutral-950);
+  font-weight: 500;
+}
+
+.variant-secondary.theme-light .pageButton.active:hover {
+  background-color: var(--neutral-900);
+}
+
+.variant-secondary.theme-light .ellipsis {
+  color: #777777;
+}
+
+/* Secondary Variant - Dark Theme */
+.variant-secondary.theme-dark .navButton:not(:disabled):hover {
+  background-color: var(--neutral-800);
+}
+
+.variant-secondary.theme-dark .navButton:not(:disabled):active {
+  background-color: var(--neutral-700);
+}
+
+.variant-secondary.theme-dark .pageButton {
+  background-color: var(--neutral-800);
+  color: var(--neutral-400);
+  border-color: var(--neutral-700);
+}
+
+.variant-secondary.theme-dark .pageButton:hover {
+  background-color: var(--neutral-700);
+  color: var(--neutral-100);
+}
+
+.variant-secondary.theme-dark .pageButton:active {
+  background-color: var(--neutral-600);
+  color: var(--neutral-50);
+}
+
+.variant-secondary.theme-dark .pageButton.active {
+  background-color: var(--neutral-50);
+  color: var(--neutral-950);
+  border-color: var(--neutral-50);
+  font-weight: 500;
+}
+
+.variant-secondary.theme-dark .pageButton.active:hover {
+  background-color: var(--neutral-100);
+}
+
+.variant-secondary.theme-dark .ellipsis {
+  color: var(--neutral-500);
+}
+
+/* Tertiary Variant - Light Theme */
+.variant-tertiary.theme-light .navButton:not(:disabled):hover {
+  background-color: var(--neutral-100);
+}
+
+.variant-tertiary.theme-light .navButton:not(:disabled):active {
+  background-color: var(--neutral-200);
+}
+
+.variant-tertiary.theme-light .pageButton {
+  background-color: transparent;
+  color: #777777;
+  border-color: transparent;
+}
+
+.variant-tertiary.theme-light .pageButton:hover {
+  background-color: var(--neutral-100);
+  color: #000000;
+}
+
+.variant-tertiary.theme-light .pageButton:active {
+  background-color: var(--neutral-200);
+  color: #000000;
+}
+
+.variant-tertiary.theme-light .pageButton.active {
+  background-color: var(--neutral-200);
+  color: #000000;
+  border-color: transparent;
+  font-weight: 500;
+}
+
+.variant-tertiary.theme-light .pageButton.active:hover {
+  background-color: var(--neutral-300);
+}
+
+.variant-tertiary.theme-light .ellipsis {
+  color: #777777;
+}
+
+/* Tertiary Variant - Dark Theme */
+.variant-tertiary.theme-dark .navButton:not(:disabled):hover {
+  background-color: var(--neutral-800);
+}
+
+.variant-tertiary.theme-dark .navButton:not(:disabled):active {
+  background-color: var(--neutral-700);
+}
+
+.variant-tertiary.theme-dark .pageButton {
+  background-color: transparent;
+  color: var(--neutral-400);
+  border-color: transparent;
+}
+
+.variant-tertiary.theme-dark .pageButton:hover {
+  background-color: var(--neutral-800);
+  color: var(--neutral-100);
+}
+
+.variant-tertiary.theme-dark .pageButton:active {
+  background-color: var(--neutral-700);
+  color: var(--neutral-50);
+}
+
+.variant-tertiary.theme-dark .pageButton.active {
+  background-color: var(--neutral-700);
+  color: var(--neutral-100);
+  border-color: transparent;
+  font-weight: 500;
+}
+
+.variant-tertiary.theme-dark .pageButton.active:hover {
+  background-color: var(--neutral-600);
+}
+
+.variant-tertiary.theme-dark .ellipsis {
+  color: var(--neutral-600);
+}
+
+/* Desktop Typography Adjustments */
+@media (min-width: 1024px) {
+  .size-small .pageButton {
+    font-size: 16px;
+  }
+  
+  .size-small .ellipsis {
+    font-size: 16px;
+  }
+  
+  .size-medium .pageButton {
+    font-size: var(--typo-bodyMd-size);
+  }
+  
+  .size-medium .ellipsis {
+    font-size: var(--typo-bodyMd-size);
+  }
+  
+  .size-large .pageButton {
+    font-size: var(--typo-bodyLg-size);
+  }
+  
+  .size-large .ellipsis {
+    font-size: var(--typo-bodyLg-size);
+  }
+}
+
