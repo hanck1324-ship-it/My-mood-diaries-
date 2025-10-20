@@ -1,5 +1,5 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 // API 응답 타입 정의
 interface DogApiResponse {
@@ -34,9 +34,22 @@ const fetchDogImages = async (): Promise<DogImage[]> => {
 };
 
 /**
+ * Hook 반환 타입
+ */
+interface UseDogImagesReturn {
+  images: DogImage[];
+  isLoading: boolean;
+  isFetchingNextPage: boolean;
+  hasNextPage: boolean | undefined;
+  fetchNextPage: () => Promise<unknown>;
+  isError: boolean;
+  observerTarget: React.RefObject<HTMLDivElement>;
+}
+
+/**
  * 강아지 사진 목록 조회 및 무한 스크롤 Hook
  * 
- * @returns {Object} Hook 반환값
+ * @returns {UseDogImagesReturn} Hook 반환값
  * @returns {DogImage[]} images - 강아지 이미지 배열
  * @returns {boolean} isLoading - 초기 로딩 상태
  * @returns {boolean} isFetchingNextPage - 추가 페이지 로딩 상태
@@ -44,13 +57,18 @@ const fetchDogImages = async (): Promise<DogImage[]> => {
  * @returns {Function} fetchNextPage - 다음 페이지 로드 함수
  * @returns {boolean} isError - 에러 상태
  * @returns {React.RefObject} observerTarget - Intersection Observer 타겟 ref
+ * 
+ * @example
+ * ```tsx
+ * const { images, isLoading, observerTarget } = useDogImages();
+ * ```
  */
-export const useDogImages = () => {
+export const useDogImages = (): UseDogImagesReturn => {
   const observerTarget = useRef<HTMLDivElement>(null);
 
   const {
     data,
-    isLoading,
+    isPending,
     isError,
     fetchNextPage,
     hasNextPage,
@@ -59,7 +77,7 @@ export const useDogImages = () => {
     queryKey: ['dogImages'],
     queryFn: fetchDogImages,
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) => {
+    getNextPageParam: (_lastPage, allPages) => {
       // 무한 스크롤을 위해 항상 다음 페이지가 있다고 설정
       return allPages.length;
     },
@@ -95,7 +113,7 @@ export const useDogImages = () => {
 
   return {
     images,
-    isLoading,
+    isLoading: isPending,
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,

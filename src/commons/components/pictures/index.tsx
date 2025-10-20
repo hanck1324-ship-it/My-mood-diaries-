@@ -10,7 +10,7 @@ import styles from './styles.module.css';
 
 export type PicturesProps = React.HTMLAttributes<HTMLDivElement>;
 
-// Mock 데이터
+// 필터 옵션 상수
 const FILTER_OPTIONS = [
   { value: 'default', label: '기본' },
   { value: 'newest', label: '최신순' },
@@ -18,25 +18,28 @@ const FILTER_OPTIONS = [
 ];
 
 /**
+ * 스플래시 스크린 컴포넌트
+ * 로딩 중 표시되는 스켈레톤 UI
+ */
+const SplashScreen = () => (
+  <div className={styles.splashScreen} data-testid="pictures-splash-screen" />
+);
+
+/**
  * Pictures 컴포넌트
  * 
- * 사진 목록과 필터 영역을 포함하는 컴포넌트
+ * 강아지 사진 목록을 무한 스크롤로 표시하는 컴포넌트
+ * dog.ceo API를 사용하여 실시간으로 사진을 가져옵니다.
  * 
- * @param props - PicturesProps
- * @returns Pictures 컴포넌트
+ * @param {PicturesProps} props - 컴포넌트 props
+ * @param {React.Ref} ref - 컴포넌트 ref
+ * @returns {JSX.Element} Pictures 컴포넌트
  * 
  * @example
  * ```tsx
  * <Pictures />
  * ```
  */
-/**
- * 스플래시 스크린 컴포넌트
- */
-const SplashScreen = () => (
-  <div className={styles.splashScreen} data-testid="pictures-splash-screen" />
-);
-
 export const Pictures = React.forwardRef<HTMLDivElement, PicturesProps>(
   ({ className, ...props }, ref) => {
     const [selectedFilter, setSelectedFilter] = useState('default');
@@ -91,14 +94,17 @@ export const Pictures = React.forwardRef<HTMLDivElement, PicturesProps>(
 
           {/* 이미지 로드 성공 */}
           {!isLoading && !isError && images.map((image, index) => (
-            <div key={image.id} className={styles.imageCard}>
+            <div 
+              key={image.id} 
+              className={styles.imageCard}
+              data-testid={`pictures-image-${index}`}
+            >
               <Image
                 src={image.src}
                 alt={image.alt}
                 width={640}
                 height={640}
                 className={styles.image}
-                data-testid={`pictures-image-${index}`}
                 unoptimized
               />
             </div>
