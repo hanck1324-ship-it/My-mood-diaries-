@@ -41,7 +41,7 @@ interface UseDogImagesReturn {
   isLoading: boolean;
   isFetchingNextPage: boolean;
   hasNextPage: boolean | undefined;
-  fetchNextPage: () => Promise<unknown>;
+  fetchNextPage: () => void;
   isError: boolean;
   observerTarget: React.RefObject<HTMLDivElement>;
 }
@@ -68,7 +68,7 @@ export const useDogImages = (): UseDogImagesReturn => {
 
   const {
     data,
-    isPending,
+    isLoading,
     isError,
     fetchNextPage,
     hasNextPage,
@@ -77,7 +77,7 @@ export const useDogImages = (): UseDogImagesReturn => {
     queryKey: ['dogImages'],
     queryFn: fetchDogImages,
     initialPageParam: 0,
-    getNextPageParam: (_lastPage, allPages) => {
+    getNextPageParam: (lastPage, allPages) => {
       // 무한 스크롤을 위해 항상 다음 페이지가 있다고 설정
       return allPages.length;
     },
@@ -90,14 +90,15 @@ export const useDogImages = (): UseDogImagesReturn => {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // 마지막 2개의 이미지가 보이면 (스크롤 위치) 다음 페이지 로드
+        // observer target이 보이면 다음 페이지 로드
         if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          console.log('Intersection Observer triggered - fetching next page');
           fetchNextPage();
         }
       },
       {
         threshold: 0.1, // 10% 보이면 트리거
-        rootMargin: '200px', // 200px 전에 미리 로드
+        rootMargin: '100px', // 100px 전에 미리 로드
       }
     );
 
@@ -113,7 +114,7 @@ export const useDogImages = (): UseDogImagesReturn => {
 
   return {
     images,
-    isLoading: isPending,
+    isLoading,
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,

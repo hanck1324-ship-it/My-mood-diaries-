@@ -94,17 +94,14 @@ export const Pictures = React.forwardRef<HTMLDivElement, PicturesProps>(
 
           {/* 이미지 로드 성공 */}
           {!isLoading && !isError && images.map((image, index) => (
-            <div 
-              key={image.id} 
-              className={styles.imageCard}
-              data-testid={`pictures-image-${index}`}
-            >
+            <div key={image.id} className={styles.imageCard}>
               <Image
                 src={image.src}
                 alt={image.alt}
                 width={640}
                 height={640}
                 className={styles.image}
+                data-testid={`pictures-image-${index}`}
                 unoptimized
               />
             </div>
