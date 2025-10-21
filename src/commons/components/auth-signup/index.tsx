@@ -1,8 +1,23 @@
 import React from 'react';
-import { Input } from '../input';
+
 import { Button } from '../button';
+import { Input } from '../input';
+
 import styles from './styles.module.css';
 
+/**
+ * 회원가입 컴포넌트
+ * 
+ * 글래스모피즘 스타일의 회원가입 폼을 제공합니다.
+ * 이메일, 비밀번호, 비밀번호 확인, 이름 입력 필드와 회원가입 버튼을 포함합니다.
+ * 
+ * @returns {JSX.Element} 회원가입 폼 컴포넌트
+ * 
+ * @example
+ * ```tsx
+ * <AuthSignup />
+ * ```
+ */
 export const AuthSignup = () => {
   return (
     <div className={styles.container}>
@@ -100,4 +115,3 @@ export const AuthSignup = () => {
 };
 
 export default AuthSignup;
-
