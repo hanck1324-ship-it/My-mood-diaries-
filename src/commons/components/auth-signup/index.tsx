@@ -76,7 +76,7 @@ export const AuthSignup = () => {
           <div className={styles.buttonGroup}>
             <Button
               type="submit"
-              variant="primary"
+              variant="secondary"
               theme="light"
               size="large"
               className={styles.submitButton}
