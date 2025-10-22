@@ -4,6 +4,7 @@ import React from 'react';
 
 import { Button } from '../button';
 import { Input } from '../input';
+import { useSignupForm } from './hooks/index.form.hook';
 
 import styles from './styles.module.css';
 
@@ -26,6 +27,8 @@ export type AuthSignupProps = React.HTMLAttributes<HTMLDivElement>;
  */
 export const AuthSignup = React.forwardRef<HTMLDivElement, AuthSignupProps>(
   ({ className, ...props }, ref) => {
+    const { register, handleSubmit, errors, isValid, isLoading } = useSignupForm();
+
     const containerClasses = [
       styles.container,
       className,
@@ -46,7 +49,11 @@ export const AuthSignup = React.forwardRef<HTMLDivElement, AuthSignupProps>(
             <p className={styles.subtitle}>새로운 계정을 만들어보세요</p>
           </div>
 
-          <form className={styles.form} data-testid="auth-signup-form">
+          <form 
+            className={styles.form} 
+            data-testid="auth-signup-form"
+            onSubmit={handleSubmit}
+          >
             <div className={styles.inputGroup}>
               <label htmlFor="email" className={styles.label}>
                 이메일
@@ -60,6 +67,7 @@ export const AuthSignup = React.forwardRef<HTMLDivElement, AuthSignupProps>(
                 placeholder="이메일을 입력하세요"
                 className={styles.input}
                 data-testid="auth-signup-email-input"
+                {...register('email')}
               />
             </div>
 
@@ -76,6 +84,7 @@ export const AuthSignup = React.forwardRef<HTMLDivElement, AuthSignupProps>(
                 placeholder="비밀번호를 입력하세요"
                 className={styles.input}
                 data-testid="auth-signup-password-input"
+                {...register('password')}
               />
             </div>
 
@@ -92,6 +101,7 @@ export const AuthSignup = React.forwardRef<HTMLDivElement, AuthSignupProps>(
                 placeholder="비밀번호를 다시 입력하세요"
                 className={styles.input}
                 data-testid="auth-signup-password-confirm-input"
+                {...register('passwordConfirm')}
               />
             </div>
 
@@ -108,6 +118,7 @@ export const AuthSignup = React.forwardRef<HTMLDivElement, AuthSignupProps>(
                 placeholder="이름을 입력하세요"
                 className={styles.input}
                 data-testid="auth-signup-name-input"
+                {...register('name')}
               />
             </div>
 
@@ -119,8 +130,9 @@ export const AuthSignup = React.forwardRef<HTMLDivElement, AuthSignupProps>(
                 size="large"
                 className={styles.submitButton}
                 data-testid="auth-signup-submit-button"
+                disabled={!isValid || isLoading}
               >
-                회원가입
+                {isLoading ? '처리중...' : '회원가입'}
               </Button>
             </div>
           </form>
@@ -146,3 +158,4 @@ export const AuthSignup = React.forwardRef<HTMLDivElement, AuthSignupProps>(
 AuthSignup.displayName = 'AuthSignup';
 
 export default AuthSignup;
+
