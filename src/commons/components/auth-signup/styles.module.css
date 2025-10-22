@@ -83,6 +83,17 @@
   width: 100%;
 }
 
+/* Error Message */
+.errorMessage {
+  margin-top: 4px;
+  font-size: var(--typo-bodySm-size);
+  line-height: var(--typo-bodySm-line);
+  font-weight: var(--typo-bodySm-weight);
+  letter-spacing: var(--typo-bodySm-letter);
+  color: var(--red-600);
+  margin-bottom: 0;
+}
+
 /* Button Group */
 .buttonGroup {
   display: flex;

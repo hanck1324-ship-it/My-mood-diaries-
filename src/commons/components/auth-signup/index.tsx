@@ -36,6 +36,9 @@ export const AuthSignup = React.forwardRef<HTMLDivElement, AuthSignupProps>(
       .filter(Boolean)
       .join(' ');
 
+    // 에러 메시지 표시 여부 확인
+    const hasPasswordConfirmError = !!errors.passwordConfirm;
+
     return (
       <div 
         ref={ref} 
@@ -103,6 +106,11 @@ export const AuthSignup = React.forwardRef<HTMLDivElement, AuthSignupProps>(
                 data-testid="auth-signup-password-confirm-input"
                 {...register('passwordConfirm')}
               />
+              {hasPasswordConfirmError && (
+                <p className={styles.errorMessage} data-testid="auth-signup-password-error">
+                  {errors.passwordConfirm?.message || '패스워드가 일치하지 않습니다.'}
+                </p>
+              )}
             </div>
 
             <div className={styles.inputGroup}>

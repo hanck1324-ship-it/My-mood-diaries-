@@ -67,6 +67,11 @@ test.describe('AuthSignup - Form Hook', () => {
     
     const submitButton = page.locator('[data-testid="auth-signup-submit-button"]');
     await expect(submitButton).toBeDisabled();
+    
+    // 에러 메시지가 표시되어야 함
+    const errorMessage = page.locator('[data-testid="auth-signup-password-error"]');
+    await expect(errorMessage).toBeVisible();
+    await expect(errorMessage).toHaveText('비밀번호가 일치하지 않습니다');
   });
 
   test('이메일에 @가 없으면 회원가입 버튼이 비활성화되어야 한다', async ({ page }) => {
