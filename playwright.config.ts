@@ -55,7 +55,7 @@ export default defineConfig({
   //   /* Test against branded browsers. */
   //   {
   //     name: 'Microsoft Edge',
-  //     use: { ...devices['Desktop Edge'], channel: 'msedge' },
+  //     use: { ...devices['Desktop Edge'], channel: 'msedge' },5
   //   },
   //   {
   //     name: 'Google Chrome',
@@ -68,6 +68,9 @@ export default defineConfig({
     command: 'npm run dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
+    env: {
+      NEXT_PUBLIC_TEST_ENV: 'test',
+    },
   },
 });
 
