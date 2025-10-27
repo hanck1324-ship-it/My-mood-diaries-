@@ -158,7 +158,7 @@ export default function DiariesDetail() {
       {/* retrospect-list */}
       <div className={styles.retrospectList} data-testid="retrospect-list">
         {!isRetrospectsLoading && retrospectsList.length === 0 && (
-          <div style={{ padding: '16px 24px', color: 'var(--gray-500)', fontSize: 'var(--typo-bodyMd-size)' }}>
+          <div className={styles.retrospectEmpty}>
             등록된 회고가 없습니다.
           </div>
         )}

@@ -180,3 +180,11 @@
   margin-top: 8px;
 }
 
+.retrospectEmpty {
+  padding: 16px 24px;
+  font-size: var(--typo-bodyMd-size);
+  line-height: var(--typo-bodyMd-line);
+  font-weight: var(--typo-bodyMd-weight);
+  letter-spacing: var(--typo-bodyMd-letter);
+  color: var(--gray-500);
+}
