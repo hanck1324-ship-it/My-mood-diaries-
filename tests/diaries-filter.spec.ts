@@ -63,11 +63,11 @@ test.describe('Diaries - 필터 기능', () => {
     await selectBox.click();
     
     // 옵션 확인
-    await expect(page.getByText('전체')).toBeVisible();
-    await expect(page.getByText('행복해요')).toBeVisible();
-    await expect(page.getByText('슬퍼요')).toBeVisible();
-    await expect(page.getByText('놀랐어요')).toBeVisible();
-    await expect(page.getByText('화나요')).toBeVisible();
+    await expect(page.locator('[data-testid="selectbox-option-all"]')).toBeVisible();
+    await expect(page.locator('[data-testid="selectbox-option-Happy"]')).toBeVisible();
+    await expect(page.locator('[data-testid="selectbox-option-Sad"]')).toBeVisible();
+    await expect(page.locator('[data-testid="selectbox-option-Surprise"]')).toBeVisible();
+    await expect(page.locator('[data-testid="selectbox-option-Angry"]')).toBeVisible();
   });
 
   test('"행복해요" 필터를 선택하면 행복해요 감정의 일기 카드만 표시되어야 한다', async ({ page }) => {
@@ -77,7 +77,7 @@ test.describe('Diaries - 필터 기능', () => {
     await selectBox.click();
     
     // "행복해요" 선택
-    await page.getByText('행복해요').click();
+    await page.locator('[data-testid="selectbox-option-Happy"]').click();
     
     // React 상태 업데이트 대기
     await page.waitForTimeout(100);
@@ -99,7 +99,7 @@ test.describe('Diaries - 필터 기능', () => {
     const selectBox = page.locator('[data-testid="diaries-filter-selectbox"]');
     
     await selectBox.click();
-    await page.getByText('슬퍼요').click();
+    await page.locator('[data-testid="selectbox-option-Sad"]').click();
     await page.waitForTimeout(100);
     
     // Sad 감정 일기만 표시 (id: 2)
@@ -117,7 +117,7 @@ test.describe('Diaries - 필터 기능', () => {
     const selectBox = page.locator('[data-testid="diaries-filter-selectbox"]');
     
     await selectBox.click();
-    await page.getByText('놀랐어요').click();
+    await page.locator('[data-testid="selectbox-option-Surprise"]').click();
     await page.waitForTimeout(100);
     
     // Surprise 감정 일기만 표시 (id: 3)
@@ -135,7 +135,7 @@ test.describe('Diaries - 필터 기능', () => {
     const selectBox = page.locator('[data-testid="diaries-filter-selectbox"]');
     
     await selectBox.click();
-    await page.getByText('화나요').click();
+    await page.locator('[data-testid="selectbox-option-Angry"]').click();
     await page.waitForTimeout(100);
     
     // Angry 감정 일기만 표시 (id: 4)
@@ -154,7 +154,7 @@ test.describe('Diaries - 필터 기능', () => {
     
     // 1. "행복해요" 필터 선택
     await selectBox.click();
-    await page.getByText('행복해요').click();
+    await page.locator('[data-testid="selectbox-option-Happy"]').click();
     await page.waitForTimeout(100);
     
     // 2. 2개만 표시되는지 확인
@@ -163,7 +163,7 @@ test.describe('Diaries - 필터 기능', () => {
     
     // 3. "전체" 필터 선택
     await selectBox.click();
-    await page.getByText('전체').click();
+    await page.locator('[data-testid="selectbox-option-all"]').click();
     await page.waitForTimeout(100);
     
     // 4. 모든 일기 표시
@@ -188,7 +188,7 @@ test.describe('Diaries - 필터 기능', () => {
     // 3. "행복해요" 필터 선택 (변화 없음, 모든 검색 결과가 Happy)
     const selectBox = page.locator('[data-testid="diaries-filter-selectbox"]');
     await selectBox.click();
-    await page.getByText('행복해요').click();
+    await page.locator('[data-testid="selectbox-option-Happy"]').click();
     await page.waitForTimeout(100);
     
     // 4. 여전히 2개 모두 표시되어야 함
@@ -197,7 +197,7 @@ test.describe('Diaries - 필터 기능', () => {
     
     // 5. "슬퍼요" 필터 선택 (결과 없음)
     await selectBox.click();
-    await page.getByText('슬퍼요').click();
+    await page.locator('[data-testid="selectbox-option-Sad"]').click();
     await page.waitForTimeout(100);
     
     // 6. 검색 결과는 있지만 필터가 맞지 않으므로 모두 숨김
@@ -219,7 +219,7 @@ test.describe('Diaries - 필터 기능', () => {
     // 3. "행복해요" 필터 선택
     const selectBox = page.locator('[data-testid="diaries-filter-selectbox"]');
     await selectBox.click();
-    await page.getByText('행복해요').click();
+    await page.locator('[data-testid="selectbox-option-Happy"]').click();
     await page.waitForTimeout(100);
     
     // 4. Happy만 표시되어야 함
@@ -228,7 +228,7 @@ test.describe('Diaries - 필터 기능', () => {
     
     // 5. "놀랐어요" 필터로 변경
     await selectBox.click();
-    await page.getByText('놀랐어요').click();
+    await page.locator('[data-testid="selectbox-option-Surprise"]').click();
     await page.waitForTimeout(100);
     
     // 6. Surprise만 표시되어야 함

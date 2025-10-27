@@ -13,7 +13,7 @@ export interface SelectBoxOption {
   label: string;
 }
 
-export interface SelectBoxProps {
+export interface SelectBoxProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   variant?: SelectBoxVariant;
   size?: SelectBoxSize;
   theme?: SelectBoxTheme;
@@ -38,6 +38,7 @@ export const SelectBox = React.forwardRef<HTMLDivElement, SelectBoxProps>(
     placeholder = '선택하세요',
     disabled = false,
     className,
+    ...props
   }, ref) => {
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -94,7 +95,7 @@ export const SelectBox = React.forwardRef<HTMLDivElement, SelectBoxProps>(
       .join(' ');
 
     return (
-      <div ref={containerRef} className={styles.container} data-testid="selectbox">
+      <div ref={containerRef} className={styles.container} {...props}>
         <div ref={ref} className={triggerClasses} onClick={handleToggle}>
           <span className={styles.label}>
             {selectedOption?.label || placeholder}
