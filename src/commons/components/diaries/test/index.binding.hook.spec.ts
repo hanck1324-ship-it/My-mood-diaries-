@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { Emotion } from '../src/commons/constants/enum';
+import { Emotion } from '@/commons/constants/enum';
 
 /**
  * Diaries 데이터 바인딩 테스트
