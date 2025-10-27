@@ -12,6 +12,7 @@ import { EMOTION_META } from '@/commons/constants/enum';
 import { useLinkModal } from './hooks/index.link.modal.hook';
 import { useBindingHook } from './hooks/index.binding.hook';
 import { useSearchHook } from './hooks/index.search.hook';
+import { useDeleteDiary } from './hooks/index.delete.hook';
 import { useRouter } from 'next/navigation';
 
 export default function Diaries() {
@@ -24,9 +25,17 @@ export default function Diaries() {
   const { diaries, isLoading } = useBindingHook();
   const filteredDiaries = useSearchHook(diaries, searchValue);
   const router = useRouter();
+  const { deleteDiary } = useDeleteDiary();
 
   const handleDiaryClick = (id: number) => {
     router.push(`/diaries/${id}`);
+  };
+
+  const handleDeleteClick = (e: React.MouseEvent, id: number) => {
+    e.stopPropagation();
+    if (confirm('정말 삭제하시겠습니까?')) {
+      deleteDiary(id);
+    }
   };
 
   const filterOptions = [
@@ -106,10 +115,7 @@ export default function Diaries() {
                   />
                   <button 
                     className={styles.deleteButton}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      console.log('삭제:', diary.id);
-                    }}
+                    onClick={(e) => handleDeleteClick(e, diary.id)}
                     aria-label="일기 삭제"
                   >
                     <Image

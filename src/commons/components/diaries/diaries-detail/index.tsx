@@ -6,11 +6,28 @@ import Input from '@/commons/components/input';
 import { EMOTION_META } from '@/commons/constants/enum';
 import { useDiaryDetailBinding } from './hooks/index.binding.hook';
 import { useRetrospectForm } from './hooks/index.retrospect.form.hook';
+import { useDeleteDiary } from '../hooks/index.delete.hook';
+import { useRouter } from 'next/navigation';
 import styles from './styles.module.css';
 
 export default function DiariesDetail() {
   const { diary, error, isLoading, formattedDate, diaryId } = useDiaryDetailBinding();
   const { register, handleSubmit, errors, isDisabled } = useRetrospectForm(diaryId || 0);
+  const router = useRouter();
+  const { deleteDiary } = useDeleteDiary();
+
+  const handleDelete = () => {
+    if (confirm('정말 삭제하시겠습니까?')) {
+      if (diaryId) {
+        deleteDiary(diaryId);
+      }
+    }
+  };
+
+  const handleEdit = () => {
+    // 수정 기능은 추후 구현
+    alert('수정 기능은 추후 구현 예정입니다.');
+  };
 
   // 로딩 중이거나 에러가 있는 경우 처리
   if (isLoading || error || !diary) {
@@ -71,6 +88,8 @@ export default function DiariesDetail() {
           variant="secondary" 
           theme="light" 
           size="medium"
+          onClick={handleEdit}
+          data-testid="diary-detail-edit-button"
         >
           수정
         </Button>
@@ -78,6 +97,8 @@ export default function DiariesDetail() {
           variant="secondary" 
           theme="light" 
           size="medium"
+          onClick={handleDelete}
+          data-testid="diary-detail-delete-button"
         >
           삭제
         </Button>
