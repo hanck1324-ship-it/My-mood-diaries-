@@ -12,20 +12,24 @@ import { EMOTION_META } from '@/commons/constants/enum';
 import { useLinkModal } from './hooks/index.link.modal.hook';
 import { useBindingHook } from './hooks/index.binding.hook';
 import { useSearchHook } from './hooks/index.search.hook';
+import { useFilterHook, getFilterOptions, FilterType } from './hooks/index.filter.hook';
 import { useDeleteDiary } from './hooks/index.delete.hook';
 import { useRouter } from 'next/navigation';
 
 export default function Diaries() {
-  const [filterValue, setFilterValue] = useState('all');
+  const [filterValue, setFilterValue] = useState<FilterType>('all');
   const [searchValue, setSearchValue] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 10;
 
   const { handleWriteDiary } = useLinkModal();
   const { diaries, isLoading } = useBindingHook();
-  const filteredDiaries = useSearchHook(diaries, searchValue);
   const router = useRouter();
   const { deleteDiary } = useDeleteDiary();
+
+  // 필터링: 먼저 검색으로 필터링, 그 다음 감정으로 필터링
+  const searchedDiaries = useSearchHook(diaries, searchValue);
+  const filteredDiaries = useFilterHook(searchedDiaries, filterValue);
 
   const handleDiaryClick = (id: number) => {
     router.push(`/diaries/${id}`);
@@ -38,9 +42,11 @@ export default function Diaries() {
     }
   };
 
-  const filterOptions = [
-    { value: 'all', label: '전체' },
-  ];
+  const filterOptions = getFilterOptions();
+
+  const handleFilterChange = (value: string) => {
+    setFilterValue(value as FilterType);
+  };
 
   const handleSearch = (value: string) => {
     setSearchValue(value);
@@ -57,8 +63,9 @@ export default function Diaries() {
             theme="light"
             options={filterOptions}
             value={filterValue}
-            onChange={setFilterValue}
+            onChange={handleFilterChange}
             className={styles.selectBox}
+            data-testid="diaries-filter-selectbox"
           />
           <SearchBar
             variant="primary"
