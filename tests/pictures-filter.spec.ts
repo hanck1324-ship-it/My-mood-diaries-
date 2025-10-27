@@ -54,7 +54,7 @@ test.describe('Pictures - 강아지 사진 필터 기능', () => {
     await selectbox.click();
     
     // 가로형 옵션 선택
-    const horizontalOption = page.locator('text=가로형').first();
+    const horizontalOption = page.locator('[data-testid="selectbox-option-horizontal"]');
     await expect(horizontalOption).toBeVisible({ timeout: TEST_TIMEOUTS.SHORT });
     await horizontalOption.click();
 
@@ -90,7 +90,7 @@ test.describe('Pictures - 강아지 사진 필터 기능', () => {
     await selectbox.click();
     
     // 세로형 옵션 선택
-    const verticalOption = page.locator('text=세로형').first();
+    const verticalOption = page.locator('[data-testid="selectbox-option-vertical"]');
     await expect(verticalOption).toBeVisible({ timeout: TEST_TIMEOUTS.SHORT });
     await verticalOption.click();
 
@@ -130,7 +130,7 @@ test.describe('Pictures - 강아지 사진 필터 기능', () => {
     const selectbox = page.locator('[data-testid="selectbox"]');
     await selectbox.click();
     
-    const horizontalOption = page.locator('text=가로형').first();
+    const horizontalOption = page.locator('[data-testid="selectbox-option-horizontal"]');
     await horizontalOption.click();
 
     await page.waitForTimeout(200);
@@ -162,7 +162,7 @@ test.describe('Pictures - 강아지 사진 필터 기능', () => {
     const selectbox = page.locator('[data-testid="selectbox"]');
     await selectbox.click();
     
-    const verticalOption = page.locator('text=세로형').first();
+    const verticalOption = page.locator('[data-testid="selectbox-option-vertical"]');
     await verticalOption.click();
 
     await page.waitForTimeout(200);
