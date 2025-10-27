@@ -55,11 +55,8 @@ test.describe('Diaries - 검색 기능', () => {
     const searchInput = page.locator('[data-testid="searchbar"] input');
     await searchInput.fill('세');
     
-    // 엔터 키 입력
+    // 엔터 키 입력 후 검색 결과 대기
     await searchInput.press('Enter');
-    
-    // React 상태 업데이트 대기
-    await page.waitForTimeout(100);
     
     // "세"가 포함된 일기 카드만 표시되어야 함
     // id=3: "세 번째 일기 제목"만 표시되어야 함
@@ -88,11 +85,8 @@ test.describe('Diaries - 검색 기능', () => {
     const searchInput = page.locator('[data-testid="searchbar"] input');
     await searchInput.fill('일기');
     
-    // 엔터 키 입력
+    // 엔터 키 입력 후 검색 결과 대기
     await searchInput.press('Enter');
-    
-    // React 상태 업데이트 대기
-    await page.waitForTimeout(100);
     
     // 모든 일기 카드가 표시되어야 함 (모두 "일기"를 포함)
     await expect(page.locator('[data-testid="diary-card-1"]')).toBeVisible();
@@ -108,11 +102,8 @@ test.describe('Diaries - 검색 기능', () => {
     const searchInput = page.locator('[data-testid="searchbar"] input');
     await searchInput.fill('없는단어');
     
-    // 엔터 키 입력
+    // 엔터 키 입력 후 검색 결과 대기
     await searchInput.press('Enter');
-    
-    // React 상태 업데이트 대기
-    await page.waitForTimeout(100);
     
     // 모든 일기 카드가 숨겨져야 함
     await expect(page.locator('[data-testid="diary-card-1"]')).toBeHidden();
@@ -128,7 +119,6 @@ test.describe('Diaries - 검색 기능', () => {
     const searchInput = page.locator('[data-testid="searchbar"] input');
     await searchInput.fill('세');
     await searchInput.press('Enter');
-    await page.waitForTimeout(100);
     
     // 2. 검색 결과 확인 (1개만 표시)
     await expect(page.locator('[data-testid="diary-card-3"]')).toBeVisible();
@@ -137,7 +127,6 @@ test.describe('Diaries - 검색 기능', () => {
     // 3. 검색창 비우기
     await searchInput.clear();
     await searchInput.press('Enter');
-    await page.waitForTimeout(100);
     
     // 4. 모든 일기가 다시 표시되어야 함
     await expect(page.locator('[data-testid="diary-card-1"]')).toBeVisible();
@@ -146,32 +135,30 @@ test.describe('Diaries - 검색 기능', () => {
     await expect(page.locator('[data-testid="diary-card-4"]')).toBeVisible();
   });
 
-  test('부분 일치 검색이 제대로 되어야 한다', async ({ page }) => {
+  test('부분 검색어로 여러 결과가 일치해야 한다', async ({ page }) => {
     await page.waitForSelector('[data-testid="diaries-container"]');
     
     // 부분 문자열로 검색
     const searchInput = page.locator('[data-testid="searchbar"] input');
     await searchInput.fill('번째');
     await searchInput.press('Enter');
-    await page.waitForTimeout(100);
     
-    // 일치하는 결과 확인 (첫 번째, 두 번째, 세 번째, 네 번째)
+    // "번째"가 포함된 모든 일기 카드 확인 (첫, 두, 세, 네 모두 포함)
     await expect(page.locator('[data-testid="diary-card-1"]')).toBeVisible();
     await expect(page.locator('[data-testid="diary-card-2"]')).toBeVisible();
     await expect(page.locator('[data-testid="diary-card-3"]')).toBeVisible();
     await expect(page.locator('[data-testid="diary-card-4"]')).toBeVisible();
   });
 
-  test('부분 일치 검색이 가능해야 한다', async ({ page }) => {
+  test('부분 일치로 특정 일기만 필터링되어야 한다', async ({ page }) => {
     await page.waitForSelector('[data-testid="diaries-container"]');
     
     // 부분 문자열로 검색
     const searchInput = page.locator('[data-testid="searchbar"] input');
     await searchInput.fill('두');
     await searchInput.press('Enter');
-    await page.waitForTimeout(100);
     
-    // 부분 일치 결과 확인
+    // 일치하는 결과 확인
     await expect(page.locator('[data-testid="diary-card-2"]')).toBeVisible();
     await expect(page.locator('[data-testid="diary-title-2"]')).toHaveText('두 번째 일기 제목');
     
