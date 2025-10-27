@@ -1,0 +1,96 @@
+/* Modal Container */
+.modal {
+  display: flex;
+  flex-direction: column;
+  width: 480px;
+  height: 200px;
+  padding: 24px;
+  gap: 40px;
+  border-radius: 24px;
+  box-sizing: border-box;
+}
+
+/* Variant - Info - Light Theme */
+.modal.variant-info.theme-light {
+  background-color: #ffffff;
+}
+
+/* Variant - Info - Dark Theme */
+.modal.variant-info.theme-dark {
+  background-color: var(--neutral-900);
+}
+
+/* Variant - Danger - Light Theme */
+.modal.variant-danger.theme-light {
+  background-color: #ffffff;
+}
+
+/* Variant - Danger - Dark Theme */
+.modal.variant-danger.theme-dark {
+  background-color: var(--neutral-900);
+}
+
+/* Content Area */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+/* Title */
+.title {
+  font-family: var(--font-geist-sans);
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-align: center;
+  margin: 0;
+}
+
+.modal.theme-light .title {
+  color: #000000;
+}
+
+.modal.theme-dark .title {
+  color: #ffffff;
+}
+
+/* Description */
+.description {
+  font-family: var(--font-geist-sans);
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-align: center;
+  margin: 0;
+}
+
+.modal.theme-light .description {
+  color: #333333;
+}
+
+.modal.theme-dark .description {
+  color: var(--neutral-300);
+}
+
+/* Button Area */
+.buttonArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 21px;
+  width: 100%;
+}
+
+/* Button Width for Actions */
+.buttonSingle {
+  width: 100%;
+}
+
+.buttonDual {
+  width: 104px;
+}
+

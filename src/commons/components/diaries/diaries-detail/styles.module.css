@@ -1,0 +1,182 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 1168px;
+}
+
+.gap64 {
+  width: 1168px;
+  height: 64px;
+}
+
+.detailTitle {
+  display: flex;
+  flex-direction: column;
+  width: 1168px;
+}
+
+.titleSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 24px 32px;
+  border-bottom: 2px solid black;
+}
+
+.titleLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.titleText {
+  margin: 0;
+  font-size: var(--typo-h3-size);
+  line-height: var(--typo-h3-line);
+  font-weight: var(--typo-h3-weight);
+  letter-spacing: var(--typo-h3-letter);
+  color: var(--foreground);
+}
+
+.emotionWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.emotionIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.emotionText {
+  font-size: var(--typo-bodyMd-size);
+  line-height: var(--typo-bodyMd-line);
+  font-weight: var(--typo-bodyMd-weight);
+  letter-spacing: var(--typo-bodyMd-letter);
+  color: var(--gray-600);
+}
+
+.dateText {
+  font-size: var(--typo-bodySm-size);
+  line-height: var(--typo-bodySm-line);
+  font-weight: var(--typo-bodySm-weight);
+  letter-spacing: var(--typo-bodySm-letter);
+  color: var(--gray-500);
+}
+
+.gap24 {
+  width: 1168px;
+  height: 24px;
+}
+
+.detailContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 1168px;
+  padding: 24px 32px;
+  border-radius: 8px;
+}
+
+.contentText {
+  flex: 1;
+  margin: 0;
+  font-size: var(--typo-bodyLg-size);
+  line-height: var(--typo-bodyLg-line);
+  font-weight: var(--typo-bodyLg-weight);
+  letter-spacing: var(--typo-bodyLg-letter);
+  color: var(--foreground);
+}
+
+.copyButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.copyButton:hover {
+  background-color: var(--gray-200);
+}
+
+.detailFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0px;
+  gap: 16px;
+  width: 1168px;
+  max-width: 1168px;
+  height: 56px;
+  border-bottom: 1px solid black;
+}
+
+.retrospectInput {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  width: 1168px;
+  padding: 24px 32px;
+  border-radius: 8px;
+}
+
+.retrospectInputWrapper {
+  flex: 1;
+}
+
+.gap16 {
+  width: 1168px;
+  height: 16px;
+}
+
+.retrospectList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 1168px;
+}
+
+.retrospectItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 24px;
+  border-radius: 8px;
+}
+
+.retrospectText {
+  flex: 1;
+  font-size: var(--typo-bodyMd-size);
+  line-height: var(--typo-bodyMd-line);
+  font-weight: var(--typo-bodyMd-weight);
+  letter-spacing: var(--typo-bodyMd-letter);
+  color: var(--foreground);
+}
+
+.retrospectDate {
+  font-size: var(--typo-bodySm-size);
+  line-height: var(--typo-bodySm-line);
+  font-weight: var(--typo-bodySm-weight);
+  letter-spacing: var(--typo-bodySm-letter);
+  color: var(--gray-500);
+}
+
+.errorMessage {
+  font-size: var(--typo-bodySm-size);
+  line-height: var(--typo-bodySm-line);
+  font-weight: var(--typo-bodySm-weight);
+  letter-spacing: var(--typo-bodySm-letter);
+  color: var(--error);
+  margin-top: 8px;
+}
+

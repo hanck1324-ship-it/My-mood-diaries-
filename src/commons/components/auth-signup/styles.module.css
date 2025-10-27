@@ -107,7 +107,7 @@
   width: 100%;
   background-color: var(--gray-600);
   border-color: var(--gray-600);
-  color: var(black);
+  color: #000000;
 }
 
 .submitButton:hover {

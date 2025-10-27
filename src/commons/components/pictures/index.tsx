@@ -33,6 +33,11 @@ export const Pictures = React.forwardRef<HTMLDivElement, PicturesProps>(
     
     const imageSize = getImageSize();
 
+    // SelectBox의 onChange는 string을 받지만, setSelectedFilter는 FilterType을 받음
+    const handleFilterChange = (value: string) => {
+      setSelectedFilter(value as 'default' | 'horizontal' | 'vertical');
+    };
+
     const containerClasses = [
       styles.container,
       className,
@@ -56,7 +61,7 @@ export const Pictures = React.forwardRef<HTMLDivElement, PicturesProps>(
             theme="light"
             options={filterOptions}
             value={selectedFilter}
-            onChange={setSelectedFilter}
+            onChange={handleFilterChange}
             className={styles.selectBox}
           />
         </div>
