@@ -96,7 +96,7 @@ export const SelectBox = React.forwardRef<HTMLDivElement, SelectBoxProps>(
 
     return (
       <div ref={containerRef} className={styles.container} {...props}>
-        <div ref={ref} className={triggerClasses} onClick={handleToggle}>
+        <div ref={ref} className={triggerClasses} onClick={handleToggle} data-testid="selectbox">
           <span className={styles.label}>
             {selectedOption?.label || placeholder}
           </span>
