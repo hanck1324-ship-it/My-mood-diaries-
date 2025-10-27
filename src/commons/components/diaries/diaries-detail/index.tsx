@@ -6,6 +6,7 @@ import Input from '@/commons/components/input';
 import { EMOTION_META } from '@/commons/constants/enum';
 import { useDiaryDetailBinding } from './hooks/index.binding.hook';
 import { useRetrospectForm } from './hooks/index.retrospect.form.hook';
+import { useRetrospectBinding } from './hooks/index.retrospect.binding.hook';
 import { useDeleteDiary } from '../hooks/index.delete.hook';
 import { useRouter } from 'next/navigation';
 import styles from './styles.module.css';
@@ -13,8 +14,25 @@ import styles from './styles.module.css';
 export default function DiariesDetail() {
   const { diary, error, isLoading, formattedDate, diaryId } = useDiaryDetailBinding();
   const { register, handleSubmit, errors, isDisabled } = useRetrospectForm(diaryId || 0);
+  const { retrospects: retrospectsList, isLoading: isRetrospectsLoading } = useRetrospectBinding(diaryId);
   const router = useRouter();
   const { deleteDiary } = useDeleteDiary();
+
+  /**
+   * 회고 날짜 포맷팅 (YYYY.MM.DD)
+   */
+  const formatRetrospectDate = (dateString: string): string => {
+    if (!dateString) return '';
+    try {
+      return new Date(dateString).toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      }).replace(/\. /g, '.').replace(/\.$/, '');
+    } catch {
+      return '';
+    }
+  };
 
   const handleDelete = () => {
     if (confirm('정말 삭제하시겠습니까?')) {
@@ -138,8 +156,22 @@ export default function DiariesDetail() {
       <div className={styles.gap16}></div>
       
       {/* retrospect-list */}
-      <div className={styles.retrospectList}>
-        {/* 회고 목록은 로컬스토리지에서 가져와야 함 */}
+      <div className={styles.retrospectList} data-testid="retrospect-list">
+        {!isRetrospectsLoading && retrospectsList.length === 0 && (
+          <div style={{ padding: '16px 24px', color: 'var(--gray-500)', fontSize: 'var(--typo-bodyMd-size)' }}>
+            등록된 회고가 없습니다.
+          </div>
+        )}
+        {retrospectsList.map((retrospect) => (
+          <div key={retrospect.id} className={styles.retrospectItem} data-testid="retrospect-item">
+            <p className={styles.retrospectText} data-testid="retrospect-text">
+              {retrospect.content}
+            </p>
+            <span className={styles.retrospectDate} data-testid="retrospect-date">
+              {formatRetrospectDate(retrospect.createdAt)}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
