@@ -10,9 +10,8 @@ import { Emotion } from '@/commons/constants/enum';
 
 test.describe('Diaries - 검색 기능', () => {
   test.beforeEach(async ({ page }) => {
-    // 로컬스토리지에 테스트 데이터 설정
-    await page.goto('/diaries');
-    await page.evaluate(() => {
+    // 로컬스토리지에 테스트 데이터 설정 후 페이지 로드
+    await page.addInitScript(() => {
       const testDiaries = [
         {
           id: 1,
@@ -30,14 +29,14 @@ test.describe('Diaries - 검색 기능', () => {
         },
         {
           id: 3,
-          title: '행복한 하루',
+          title: '세 번째 일기 제목',
           content: '오늘은 정말 행복한 하루였어요.',
           emotion: 'Happy',
           createdAt: '2025-01-17T09:15:00.000Z',
         },
         {
           id: 4,
-          title: '슬픈 날',
+          title: '네 번째 일기 제목',
           content: '오늘은 조금 슬픈 일이 있었어요.',
           emotion: 'Sad',
           createdAt: '2025-01-18T11:20:00.000Z',
@@ -45,15 +44,16 @@ test.describe('Diaries - 검색 기능', () => {
       ];
       localStorage.setItem('diaries', JSON.stringify(testDiaries));
     });
+    await page.goto('/diaries');
   });
 
   test('검색어 입력 후 엔터를 누르면 해당 검색어가 포함된 일기 카드만 표시되어야 한다', async ({ page }) => {
     // 페이지 로드 확인
     await page.waitForSelector('[data-testid="diaries-container"]');
     
-    // 검색창에 "행복" 입력
+    // 검색창에 "세" 입력
     const searchInput = page.locator('[data-testid="searchbar"] input');
-    await searchInput.fill('행복');
+    await searchInput.fill('세');
     
     // 엔터 키 입력
     await searchInput.press('Enter');
@@ -61,14 +61,14 @@ test.describe('Diaries - 검색 기능', () => {
     // React 상태 업데이트 대기
     await page.waitForTimeout(100);
     
-    // "행복"이 포함된 일기 카드만 표시되어야 함
-    // id=3: "행복한 하루"만 표시되어야 함
+    // "세"가 포함된 일기 카드만 표시되어야 함
+    // id=3: "세 번째 일기 제목"만 표시되어야 함
     const diaryCard3 = page.locator('[data-testid="diary-card-3"]');
     await expect(diaryCard3).toBeVisible();
     
     // id=3의 제목 확인
     const title3 = page.locator('[data-testid="diary-title-3"]');
-    await expect(title3).toHaveText('행복한 하루');
+    await expect(title3).toHaveText('세 번째 일기 제목');
     
     // 다른 일기들은 보이지 않아야 함
     const diaryCard1 = page.locator('[data-testid="diary-card-1"]');
@@ -101,12 +101,12 @@ test.describe('Diaries - 검색 기능', () => {
     await expect(page.locator('[data-testid="diary-card-4"]')).toBeVisible();
   });
 
-  test('검색어로 "세"를 입력하면 일치하는 일기 카드가 없다면 아무것도 표시되지 않아야 한다', async ({ page }) => {
+  test('검색어로 존재하지 않는 단어를 입력하면 일치하는 일기 카드가 없다면 아무것도 표시되지 않아야 한다', async ({ page }) => {
     await page.waitForSelector('[data-testid="diaries-container"]');
     
-    // 검색창에 "세" 입력 (제목에 없는 단어)
+    // 검색창에 "없는단어" 입력 (제목에 없는 단어)
     const searchInput = page.locator('[data-testid="searchbar"] input');
-    await searchInput.fill('세');
+    await searchInput.fill('없는단어');
     
     // 엔터 키 입력
     await searchInput.press('Enter');
@@ -126,7 +126,7 @@ test.describe('Diaries - 검색 기능', () => {
     
     // 1. 검색어 입력
     const searchInput = page.locator('[data-testid="searchbar"] input');
-    await searchInput.fill('행복');
+    await searchInput.fill('세');
     await searchInput.press('Enter');
     await page.waitForTimeout(100);
     
@@ -146,18 +146,20 @@ test.describe('Diaries - 검색 기능', () => {
     await expect(page.locator('[data-testid="diary-card-4"]')).toBeVisible();
   });
 
-  test('대소문자 구분 없이 검색이 되어야 한다', async ({ page }) => {
+  test('부분 일치 검색이 제대로 되어야 한다', async ({ page }) => {
     await page.waitForSelector('[data-testid="diaries-container"]');
     
-    // 대문자로 검색
+    // 부분 문자열로 검색
     const searchInput = page.locator('[data-testid="searchbar"] input');
-    await searchInput.fill('행복한');
+    await searchInput.fill('번째');
     await searchInput.press('Enter');
     await page.waitForTimeout(100);
     
-    // 일치하는 결과 확인
+    // 일치하는 결과 확인 (첫 번째, 두 번째, 세 번째, 네 번째)
+    await expect(page.locator('[data-testid="diary-card-1"]')).toBeVisible();
+    await expect(page.locator('[data-testid="diary-card-2"]')).toBeVisible();
     await expect(page.locator('[data-testid="diary-card-3"]')).toBeVisible();
-    await expect(page.locator('[data-testid="diary-title-3"]')).toHaveText('행복한 하루');
+    await expect(page.locator('[data-testid="diary-card-4"]')).toBeVisible();
   });
 
   test('부분 일치 검색이 가능해야 한다', async ({ page }) => {
@@ -165,7 +167,7 @@ test.describe('Diaries - 검색 기능', () => {
     
     // 부분 문자열로 검색
     const searchInput = page.locator('[data-testid="searchbar"] input');
-    await searchInput.fill('두 번째');
+    await searchInput.fill('두');
     await searchInput.press('Enter');
     await page.waitForTimeout(100);
     
