@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { TEST_TIMEOUTS } from './test-constants';
 import { Emotion } from '@/commons/constants/enum';
 
 /**
@@ -73,7 +74,7 @@ test.describe('Diaries - 삭제 기능', () => {
     await page.locator('[data-testid="diary-card-1"] button[aria-label="일기 삭제"]').click();
     
     // 페이지 새로고침 대기
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
     
     // 데이터가 삭제되었는지 로컬스토리지 확인
     const diaries = await page.evaluate(() => {
@@ -136,7 +137,7 @@ test.describe('Diaries - 삭제 기능', () => {
     await page.waitForSelector('[data-testid="diaries-container"]');
     
     // 잠시 대기 (삭제 처리 완료)
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
     
     // 로컬스토리지 확인
     const diaries = await page.evaluate(() => {

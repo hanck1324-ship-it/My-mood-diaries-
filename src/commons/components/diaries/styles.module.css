@@ -23,18 +23,24 @@
   flex-direction: row;
   align-items: center;
   gap: 16px;
+  flex: 1;
+  min-width: 0; /* 플렉스 아이템이 줄어들 수 있도록 */
 }
 
 .selectBox {
   width: 160px;
+  flex-shrink: 0; /* 줄어들지 않도록 고정 */
 }
 
 .searchBar {
   flex: 1;
+  min-width: 200px; /* 최소 너비 보장 */
+  max-width: 600px; /* 최대 너비 제한으로 겹침 방지 */
 }
 
 .writeButton {
   width: 120px;
+  flex-shrink: 0; /* 줄어들지 않도록 고정 */
 }
 
 .gap2 {
@@ -48,9 +54,9 @@
   flex-wrap: wrap;
   gap: 24px;
   width: 1168px;
-  height: 936px;
-  overflow: hidden;
+  min-height: 500px; /* 최소 높이만 설정 */
   align-content: flex-start;
+  justify-content: flex-start; /* 카드들을 왼쪽 정렬 */
 }
 
 .diaryCard {
@@ -69,7 +75,8 @@
   width: 274px;
   height: 274px;
   flex-shrink: 0;
-  border-radius: 16px;
+  border-radius: 16px 16px 0 0; /* 상단 모서리만 둥글게 */
+  overflow: hidden; /* 이미지가 컨테이너를 벗어나지 않도록 */
 }
 
 .deleteButton {
@@ -156,5 +163,104 @@
 .gap4 {
   width: 1168px;
   height: 40px;
+}
+
+/* 반응형 처리 */
+@media (max-width: 1200px) {
+  .container,
+  .gap,
+  .search,
+  .gap2,
+  .main,
+  .gap3,
+  .pagination,
+  .gap4 {
+    width: 100%;
+    max-width: 1168px;
+    padding: 0 24px;
+    box-sizing: border-box;
+  }
+  
+  .main {
+    gap: 20px;
+    justify-content: center; /* 중앙 정렬 */
+  }
+  
+  .searchBar {
+    max-width: none; /* 작은 화면에서는 최대 너비 제한 해제 */
+  }
+}
+
+@media (max-width: 768px) {
+  .container,
+  .gap,
+  .search,
+  .gap2,
+  .main,
+  .gap3,
+  .pagination,
+  .gap4 {
+    padding: 0 16px;
+  }
+  
+  .main {
+    gap: 16px;
+    justify-content: center; /* 중앙 정렬 */
+  }
+  
+  .diaryCard {
+    width: 100%;
+    max-width: 350px; /* 모바일에서 최대 너비 제한 */
+    height: auto; /* 자동 높이 */
+    min-height: 300px; /* 최소 높이 */
+  }
+  
+  .cardImage {
+    width: 100%;
+    height: 200px; /* 모바일에서 이미지 높이 조정 */
+  }
+  
+  .search {
+    flex-direction: column;
+    height: auto;
+    gap: 16px;
+  }
+  
+  .searchLeft {
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .selectBox {
+    width: 100%;
+  }
+  
+  .searchBar {
+    min-width: unset;
+    max-width: none;
+  }
+  
+  .writeButton {
+    width: 100%;
+  }
+}
+
+/* 중간 크기 화면 (태블릿) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .main {
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .diaryCard {
+    width: calc(50% - 10px); /* 2열 배치 */
+    max-width: 300px;
+  }
+  
+  .cardImage {
+    width: 100%;
+    height: 220px;
+  }
 }
 

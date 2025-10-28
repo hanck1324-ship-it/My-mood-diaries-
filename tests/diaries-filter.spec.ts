@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { TEST_TIMEOUTS } from './test-constants';
 import { Emotion } from '@/commons/constants/enum';
 
 /**
@@ -80,7 +81,7 @@ test.describe('Diaries - 필터 기능', () => {
     await page.locator('[data-testid="selectbox-option-Happy"]').click();
     
     // React 상태 업데이트 대기
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
     
     // Happy 감정 일기만 표시 (id: 1, 5)
     await expect(page.locator('[data-testid="diary-card-1"]')).toBeVisible();
@@ -100,7 +101,7 @@ test.describe('Diaries - 필터 기능', () => {
     
     await selectBox.click();
     await page.locator('[data-testid="selectbox-option-Sad"]').click();
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
     
     // Sad 감정 일기만 표시 (id: 2)
     await expect(page.locator('[data-testid="diary-card-2"]')).toBeVisible();
@@ -118,7 +119,7 @@ test.describe('Diaries - 필터 기능', () => {
     
     await selectBox.click();
     await page.locator('[data-testid="selectbox-option-Surprise"]').click();
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
     
     // Surprise 감정 일기만 표시 (id: 3)
     await expect(page.locator('[data-testid="diary-card-3"]')).toBeVisible();
@@ -136,7 +137,7 @@ test.describe('Diaries - 필터 기능', () => {
     
     await selectBox.click();
     await page.locator('[data-testid="selectbox-option-Angry"]').click();
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
     
     // Angry 감정 일기만 표시 (id: 4)
     await expect(page.locator('[data-testid="diary-card-4"]')).toBeVisible();
@@ -155,7 +156,7 @@ test.describe('Diaries - 필터 기능', () => {
     // 1. "행복해요" 필터 선택
     await selectBox.click();
     await page.locator('[data-testid="selectbox-option-Happy"]').click();
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
     
     // 2. 2개만 표시되는지 확인
     await expect(page.locator('[data-testid="diary-card-1"]')).toBeVisible();
@@ -164,7 +165,7 @@ test.describe('Diaries - 필터 기능', () => {
     // 3. "전체" 필터 선택
     await selectBox.click();
     await page.locator('[data-testid="selectbox-option-all"]').click();
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
     
     // 4. 모든 일기 표시
     await expect(page.locator('[data-testid="diary-card-1"]')).toBeVisible();
@@ -179,7 +180,7 @@ test.describe('Diaries - 필터 기능', () => {
     const searchInput = page.locator('[data-testid="searchbar"] input');
     await searchInput.fill('행복');
     await searchInput.press('Enter');
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
     
     // 2. 검색 결과 확인 (id: 1, 5)
     await expect(page.locator('[data-testid="diary-card-1"]')).toBeVisible();
@@ -189,7 +190,7 @@ test.describe('Diaries - 필터 기능', () => {
     const selectBox = page.locator('[data-testid="diaries-filter-selectbox"]');
     await selectBox.click();
     await page.locator('[data-testid="selectbox-option-Happy"]').click();
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
     
     // 4. 여전히 2개 모두 표시되어야 함
     await expect(page.locator('[data-testid="diary-card-1"]')).toBeVisible();
@@ -198,7 +199,7 @@ test.describe('Diaries - 필터 기능', () => {
     // 5. "슬퍼요" 필터 선택 (결과 없음)
     await selectBox.click();
     await page.locator('[data-testid="selectbox-option-Sad"]').click();
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
     
     // 6. 검색 결과는 있지만 필터가 맞지 않으므로 모두 숨김
     await expect(page.locator('[data-testid="diary-card-1"]')).toBeHidden();
@@ -210,7 +211,7 @@ test.describe('Diaries - 필터 기능', () => {
     const searchInput = page.locator('[data-testid="searchbar"] input');
     await searchInput.fill('하루');
     await searchInput.press('Enter');
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
     
     // 2. 검색 결과 확인
     await expect(page.locator('[data-testid="diary-card-1"]')).toBeVisible(); // Happy
@@ -220,7 +221,7 @@ test.describe('Diaries - 필터 기능', () => {
     const selectBox = page.locator('[data-testid="diaries-filter-selectbox"]');
     await selectBox.click();
     await page.locator('[data-testid="selectbox-option-Happy"]').click();
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
     
     // 4. Happy만 표시되어야 함
     await expect(page.locator('[data-testid="diary-card-1"]')).toBeVisible(); // Happy
@@ -229,7 +230,7 @@ test.describe('Diaries - 필터 기능', () => {
     // 5. "놀랐어요" 필터로 변경
     await selectBox.click();
     await page.locator('[data-testid="selectbox-option-Surprise"]').click();
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
     
     // 6. Surprise만 표시되어야 함
     await expect(page.locator('[data-testid="diary-card-1"]')).toBeHidden(); // Happy

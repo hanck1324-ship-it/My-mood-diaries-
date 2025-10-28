@@ -18,7 +18,7 @@ test.describe('Pictures - 사진 목록 조회 및 무한 스크롤 기능', () 
       timeout: TEST_TIMEOUTS.MEDIUM 
     });
     // React 하이드레이션 대기
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
   });
 
   test('페이지 접속 시 강아지 사진 6마리가 로드되어야 한다', async ({ page }) => {
@@ -45,7 +45,7 @@ test.describe('Pictures - 사진 목록 조회 및 무한 스크롤 기능', () 
       timeout: TEST_TIMEOUTS.MEDIUM 
     });
     // React 하이드레이션 대기
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
 
     // 스플래시 스크린 확인 (로딩이 빠르면 바로 사라질 수 있음)
     const splashScreens = page.locator('[data-testid="pictures-splash-screen"]');

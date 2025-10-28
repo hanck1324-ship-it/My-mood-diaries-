@@ -3,24 +3,26 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import styles from './styles.module.css';
-import SelectBox from '@/commons/components/selectbox';
-import SearchBar from '@/commons/components/searchbar';
+import { useRouter } from 'next/navigation';
+
 import Button from '@/commons/components/button';
 import Pagination from '@/commons/components/pagination';
+import SearchBar from '@/commons/components/searchbar';
+import SelectBox from '@/commons/components/selectbox';
 import { EMOTION_META } from '@/commons/constants/enum';
-import { useLinkModal } from './hooks/index.link.modal.hook';
 import { useBindingHook } from './hooks/index.binding.hook';
-import { useSearchHook } from './hooks/index.search.hook';
-import { useFilterHook, getFilterOptions, FilterType } from './hooks/index.filter.hook';
 import { useDeleteDiary } from './hooks/index.delete.hook';
-import { useRouter } from 'next/navigation';
+import { useFilterHook, getFilterOptions, FilterType } from './hooks/index.filter.hook';
+import { useLinkModal } from './hooks/index.link.modal.hook';
+import { usePagination } from './hooks/index.pagination.hook';
+import { useSearchHook } from './hooks/index.search.hook';
+
+import styles from './styles.module.css';
 
 export default function Diaries() {
   const [filterValue, setFilterValue] = useState<FilterType>('all');
   const [searchValue, setSearchValue] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 10;
+  const [inputValue, setInputValue] = useState(''); // 입력 중인 검색어
 
   const { handleWriteDiary } = useLinkModal();
   const { diaries, isLoading } = useBindingHook();
@@ -30,6 +32,15 @@ export default function Diaries() {
   // 필터링: 먼저 검색으로 필터링, 그 다음 감정으로 필터링
   const searchedDiaries = useSearchHook(diaries, searchValue);
   const filteredDiaries = useFilterHook(searchedDiaries, filterValue);
+
+  // 페이지네이션: 필터링된 데이터를 12개씩 페이지네이션
+  const {
+    currentPage,
+    totalPages,
+    paginatedData: paginatedDiaries,
+    handlePageChange,
+    resetToFirstPage
+  } = usePagination(filteredDiaries, 12);
 
   const handleDiaryClick = (id: number) => {
     router.push(`/diaries/${id}`);
@@ -46,10 +57,16 @@ export default function Diaries() {
 
   const handleFilterChange = (value: string) => {
     setFilterValue(value as FilterType);
+    resetToFirstPage(); // 필터 변경 시 첫 페이지로 리셋
   };
 
   const handleSearch = (value: string) => {
-    setSearchValue(value);
+    setSearchValue(value.trim());
+    resetToFirstPage(); // 검색 시 첫 페이지로 리셋
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
   };
 
   return (
@@ -72,8 +89,8 @@ export default function Diaries() {
             size="large"
             theme="light"
             placeholder="검색어를 입력해 주세요."
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
+            value={inputValue}
+            onChange={handleInputChange}
             onSearch={handleSearch}
             className={styles.searchBar}
           />
@@ -100,7 +117,7 @@ export default function Diaries() {
         {isLoading ? (
           <div>로딩중...</div>
         ) : (
-          filteredDiaries.map((diary) => {
+          paginatedDiaries.map((diary) => {
             const emotionMeta = EMOTION_META[diary.emotion];
             return (
               <div 
@@ -169,7 +186,8 @@ export default function Diaries() {
           theme="light"
           currentPage={currentPage}
           totalPages={totalPages}
-          onPageChange={setCurrentPage}
+          onPageChange={handlePageChange}
+          data-testid="diaries-pagination"
         />
       </div>
       <div className={styles.gap4}></div>

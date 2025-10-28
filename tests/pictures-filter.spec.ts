@@ -15,7 +15,7 @@ test.describe('Pictures - 강아지 사진 필터 기능', () => {
       timeout: TEST_TIMEOUTS.MEDIUM 
     });
     // React 하이드레이션 대기
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 5);
   });
 
   test('기본 필터 선택 시 이미지가 640x640으로 표시되어야 한다', async ({ page }) => {
@@ -59,7 +59,7 @@ test.describe('Pictures - 강아지 사진 필터 기능', () => {
     await horizontalOption.click();
 
     // 이미지가 새로 로드될 때까지 대기
-    await page.waitForTimeout(200);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 2.5);
 
     // 첫 번째 이미지 카드 확인
     const firstImageCard = page.locator('[data-testid^="pictures-image-"]').first();
@@ -95,7 +95,7 @@ test.describe('Pictures - 강아지 사진 필터 기능', () => {
     await verticalOption.click();
 
     // 이미지가 새로 로드될 때까지 대기
-    await page.waitForTimeout(200);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 2.5);
 
     // 첫 번째 이미지 카드 확인
     const firstImageCard = page.locator('[data-testid^="pictures-image-"]').first();
@@ -133,7 +133,7 @@ test.describe('Pictures - 강아지 사진 필터 기능', () => {
     const horizontalOption = page.locator('[data-testid="selectbox-option-horizontal"]');
     await horizontalOption.click();
 
-    await page.waitForTimeout(200);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 2.5);
 
     // 모든 이미지 카드의 크기 확인
     for (let i = 0; i < Math.min(imageCount, 6); i++) {
@@ -165,7 +165,7 @@ test.describe('Pictures - 강아지 사진 필터 기능', () => {
     const verticalOption = page.locator('[data-testid="selectbox-option-vertical"]');
     await verticalOption.click();
 
-    await page.waitForTimeout(200);
+    await page.waitForTimeout(TEST_TIMEOUTS.SHORT / 2.5);
 
     // observer target까지 스크롤하여 추가 이미지 로드
     const observerTarget = page.locator('[data-testid="pictures-observer-target"]');

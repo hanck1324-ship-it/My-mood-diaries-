@@ -5,11 +5,13 @@ import { useRouter } from 'next/navigation';
 
 import Button from '@/commons/components/button';
 import Input from '@/commons/components/input';
-import { EMOTION_META } from '@/commons/constants/enum';
+import { EMOTION_META, Emotion, EMOTIONS } from '@/commons/constants/enum';
 import { useDeleteDiary } from '../hooks/index.delete.hook';
 import { useDiaryDetailBinding } from './hooks/index.binding.hook';
-import { useRetrospectForm } from './hooks/index.retrospect.form.hook';
 import { useRetrospectBinding } from './hooks/index.retrospect.binding.hook';
+import { useRetrospectForm } from './hooks/index.retrospect.form.hook';
+import { useUpdateDiary } from './hooks/index.update.hook';
+
 import styles from './styles.module.css';
 
 export default function DiariesDetail() {
@@ -18,6 +20,19 @@ export default function DiariesDetail() {
   const { retrospects: retrospectsList, isLoading: isRetrospectsLoading } = useRetrospectBinding(diaryId);
   const router = useRouter();
   const { deleteDiary } = useDeleteDiary();
+  
+  // 수정 기능 훅
+  const {
+    isEditMode,
+    setEditMode,
+    register: registerUpdate,
+    handleSubmit: handleUpdateSubmit,
+    errors: updateErrors,
+    updateDiary,
+    cancelEdit,
+    isUpdating,
+    updateError,
+  } = useUpdateDiary(diary);
 
   /**
    * 회고 날짜 포맷팅 (YYYY.MM.DD)
@@ -44,8 +59,7 @@ export default function DiariesDetail() {
   };
 
   const handleEdit = () => {
-    // 수정 기능은 추후 구현
-    alert('수정 기능은 추후 구현 예정입니다.');
+    setEditMode(true);
   };
 
   // 로딩 중이거나 에러가 있는 경우 처리
@@ -60,7 +74,117 @@ export default function DiariesDetail() {
   const emotionMeta = EMOTION_META[diary.emotion];
 
   return (
-    <div className={styles.container} data-testid="diary-detail-container">
+    <div className={styles.container}>
+      {/* 수정 모드 */}
+      {isEditMode ? (
+        <div data-testid="edit-mode-container">
+          <div className={styles.gap64}></div>
+          
+          <form onSubmit={handleUpdateSubmit(updateDiary)} className={styles.editForm}>
+            <div className={styles.editFormHeader}>
+              <h2 className={styles.editTitle}>일기 수정</h2>
+            </div>
+            
+            <div className={styles.gap24}></div>
+            
+            {/* 감정 선택 */}
+            <div className={styles.editField}>
+              <label className={styles.editLabel}>감정</label>
+              <select 
+                {...registerUpdate('emotion')}
+                className={styles.editEmotionSelect}
+                data-testid="edit-emotion-select"
+              >
+                {EMOTIONS.map(emotion => (
+                  <option key={emotion} value={emotion}>
+                    {EMOTION_META[emotion].label}
+                  </option>
+                ))}
+              </select>
+              {updateErrors.emotion && (
+                <span className={styles.errorMessage} data-testid="edit-emotion-error">
+                  {updateErrors.emotion.message}
+                </span>
+              )}
+            </div>
+            
+            <div className={styles.gap16}></div>
+            
+            {/* 제목 입력 */}
+            <div className={styles.editField}>
+              <label className={styles.editLabel}>제목</label>
+              <Input
+                variant="primary"
+                theme="light" 
+                size="medium"
+                {...registerUpdate('title')}
+                data-testid="edit-title-input"
+                placeholder="제목을 입력하세요"
+              />
+              {updateErrors.title && (
+                <span className={styles.errorMessage} data-testid="edit-title-error">
+                  {updateErrors.title.message}
+                </span>
+              )}
+            </div>
+            
+            <div className={styles.gap16}></div>
+            
+            {/* 내용 입력 */}
+            <div className={styles.editField}>
+              <label className={styles.editLabel}>내용</label>
+              <textarea
+                {...registerUpdate('content')}
+                className={styles.editContentTextarea}
+                data-testid="edit-content-textarea"
+                placeholder="내용을 입력하세요"
+                rows={10}
+              />
+              {updateErrors.content && (
+                <span className={styles.errorMessage} data-testid="edit-content-error">
+                  {updateErrors.content.message}
+                </span>
+              )}
+            </div>
+            
+            <div className={styles.gap24}></div>
+            
+            {/* 에러 메시지 */}
+            {updateError && (
+              <div className={styles.errorMessage} data-testid="update-error">
+                {updateError}
+              </div>
+            )}
+            
+            {/* 수정 폼 버튼 */}
+            <div className={styles.editButtons}>
+              <Button
+                variant="secondary"
+                theme="light"
+                size="medium"
+                type="button"
+                onClick={cancelEdit}
+                disabled={isUpdating}
+                data-testid="edit-cancel-button"
+              >
+                취소
+              </Button>
+              <Button
+                variant="primary"
+                theme="light"
+                size="medium"
+                type="submit"
+                disabled={isUpdating}
+                data-testid="edit-submit-button"
+              >
+                {isUpdating ? '수정 중...' : '수정하기'}
+              </Button>
+            </div>
+          </form>
+        </div>
+      ) : (
+        /* 일반 모드 */
+        <div data-testid="diary-detail-container">
       <div className={styles.gap64}></div>
       
       {/* detail-title */}
@@ -123,9 +247,12 @@ export default function DiariesDetail() {
         </Button>
       </div>
 
+        </div>
+      )}
+      
+      {/* 회고 입력 섹션 - 항상 렌더링 */}
       <div className={styles.gap24}></div>
       
-      {/* retrospect-input */}
       <form onSubmit={handleSubmit} className={styles.retrospectInput}>
         <div className={styles.retrospectInputWrapper}>
           <Input 
@@ -134,6 +261,7 @@ export default function DiariesDetail() {
             size="medium"
             placeholder="회고를 입력하세요"
             {...register('content')}
+            disabled={isEditMode}
             data-testid="retrospect-input"
           />
           {errors.content && (
@@ -147,7 +275,7 @@ export default function DiariesDetail() {
           theme="light" 
           size="medium"
           type="submit"
-          disabled={isDisabled}
+          disabled={isDisabled || isEditMode}
           data-testid="retrospect-submit-button"
         >
           입력
@@ -156,7 +284,7 @@ export default function DiariesDetail() {
 
       <div className={styles.gap16}></div>
       
-      {/* retrospect-list */}
+      {/* 회고 목록 - 항상 렌더링 */}
       <div className={styles.retrospectList} data-testid="retrospect-list">
         {!isRetrospectsLoading && retrospectsList.length === 0 && (
           <div className={styles.retrospectEmpty}>
