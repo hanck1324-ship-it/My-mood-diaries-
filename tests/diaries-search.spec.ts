@@ -85,7 +85,7 @@ test.describe('Diaries - 검색 기능', () => {
     const searchInput = page.locator('[data-testid="searchbar"] input');
     await searchInput.fill('일기');
     
-    // 엔터 키 입력 후 검색 결과 대기
+333333333333333333333    // 엔터 키 입력 후 검색 결과 대기
     await searchInput.press('Enter');
     
     // 모든 일기 카드가 표시되어야 함 (모두 "일기"를 포함)

@@ -109,6 +109,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  border-bottom: none;
 }
 
 .tabText {
