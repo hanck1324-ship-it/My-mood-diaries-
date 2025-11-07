@@ -69,15 +69,17 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* Banner */}
       {banner && (
-        <div className={styles.banner} data-testid="layout-banner">
-          <Image
-            src="/images/banner.png"
-            alt="Banner"
-            fill
-            style={{ objectFit: 'cover' }}
-            priority
-            sizes="1168px"
-          />
+        <div className={styles.bannerWrapper}>
+          <div className={styles.banner} data-testid="layout-banner">
+            <Image
+              src="/images/banner.png"
+              alt="Banner"
+              fill
+              style={{ objectFit: 'cover' }}
+              priority
+              sizes="1168px"
+            />
+          </div>
         </div>
       )}
 
