@@ -9,6 +9,8 @@
   font-weight: 400;
   transition: all 0.2s ease-in-out;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
 .searchBarContainer:focus-within {

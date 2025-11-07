@@ -1,6 +1,5 @@
-'use client';
-
-import React, { useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState, useCallback } from 'react';
 import { useModal } from '@/commons/providers/modal/modal.provider';
 import { useAuthGuard } from '@/commons/providers/auth/auth.guard.hook';
 import DiariesDeleteModal from '../diaries-delete-modal';
@@ -33,9 +32,10 @@ interface UseDeleteDiaryReturn {
  * }}>삭제</button>
  * ```
  */
-export function useDeleteDiary(): UseDeleteDiaryReturn {
+export const useDeleteDiary = (): UseDeleteDiaryReturn => {
+  const router = useRouter();
   const { openModal, closeModal } = useModal();
-  const { isLoggedIn } = useAuthGuard();
+  const { guardAction } = useAuthGuard();
   const [isDeleting, setIsDeleting] = useState(false);
 
   /**
@@ -74,24 +74,22 @@ export function useDeleteDiary(): UseDeleteDiaryReturn {
    * 
    * @param {number} id - 삭제할 일기 ID
    */
-  const openDeleteModal = useCallback((id: number) => {
-    // 권한 체크
-    if (!isLoggedIn()) {
-      console.warn('로그인이 필요합니다.');
-      return;
-    }
-
-    const modalElement = React.createElement(DiariesDeleteModal, {
-      isOpen: true,
-      onConfirm: () => deleteDiary(id),
-      onCancel: closeModal,
-    });
-    
-    openModal(modalElement);
-  }, [isLoggedIn, openModal, deleteDiary, closeModal]);
+  const openDeleteModal = useCallback(
+    guardAction((id: number) => {
+      openModal(
+        <DiariesDeleteModal
+          isOpen={true}
+          onConfirm={() => deleteDiary(id)}
+          onCancel={closeModal}
+        />
+      );
+    }),
+    [guardAction, openModal, deleteDiary, closeModal]
+  );
 
   return {
     openDeleteModal,
     isDeleting,
   };
-}
+};
+

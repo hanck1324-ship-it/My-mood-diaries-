@@ -10,6 +10,7 @@ import Pagination from '@/commons/components/pagination';
 import SearchBar from '@/commons/components/searchbar';
 import SelectBox from '@/commons/components/selectbox';
 import { EMOTION_META } from '@/commons/constants/enum';
+import { useAuthGuard } from '@/commons/providers/auth/auth.guard.hook';
 import { useBindingHook } from './hooks/index.binding.hook';
 import { useDeleteDiary } from './hooks/index.delete.hook';
 import { useFilterHook, getFilterOptions, FilterType } from './hooks/index.filter.hook';
@@ -27,7 +28,8 @@ export default function Diaries() {
   const { handleWriteDiary } = useLinkModal();
   const { diaries, isLoading } = useBindingHook();
   const router = useRouter();
-  const { deleteDiary } = useDeleteDiary();
+  const { openDeleteModal, isDeleting } = useDeleteDiary();
+  const { isLoggedIn } = useAuthGuard();
 
   // 필터링: 먼저 검색으로 필터링, 그 다음 감정으로 필터링
   const searchedDiaries = useSearchHook(diaries, searchValue);
@@ -48,9 +50,7 @@ export default function Diaries() {
 
   const handleDeleteClick = (e: React.MouseEvent, id: number) => {
     e.stopPropagation();
-    if (confirm('정말 삭제하시겠습니까?')) {
-      deleteDiary(id);
-    }
+    openDeleteModal(id);
   };
 
   const filterOptions = getFilterOptions();
@@ -137,18 +137,20 @@ export default function Diaries() {
                     priority={diary.id <= 4}
                     data-testid={`diary-image-${diary.id}`}
                   />
-                  <button 
-                    className={styles.deleteButton}
-                    onClick={(e) => handleDeleteClick(e, diary.id)}
-                    aria-label="일기 삭제"
-                  >
-                    <Image
-                      src="/icons/close_outline_light_m.svg"
-                      alt="delete"
-                      width={20}
-                      height={20}
-                    />
-                  </button>
+                  {isLoggedIn() && (
+                    <button 
+                      className={styles.deleteButton}
+                      onClick={(e) => handleDeleteClick(e, diary.id)}
+                      aria-label="일기 삭제"
+                    >
+                      <Image
+                        src="/icons/close_outline_light_m.svg"
+                        alt="delete"
+                        width={20}
+                        height={20}
+                      />
+                    </button>
+                  )}
                 </div>
                 <div className={styles.cardContent}>
                   <div 

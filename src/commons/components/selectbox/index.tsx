@@ -81,6 +81,12 @@ export const SelectBox = React.forwardRef<HTMLDivElement, SelectBoxProps>(
       styles[`theme-${theme}`],
       error && styles.error,
       disabled && styles.disabled,
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    const containerClasses = [
+      styles.container,
       className,
     ]
       .filter(Boolean)
@@ -95,7 +101,7 @@ export const SelectBox = React.forwardRef<HTMLDivElement, SelectBoxProps>(
       .join(' ');
 
     return (
-      <div ref={containerRef} className={styles.container} {...props}>
+      <div ref={containerRef} className={containerClasses} {...props}>
         <div ref={ref} className={triggerClasses} onClick={handleToggle} data-testid="selectbox">
           <span className={styles.label}>
             {selectedOption?.label || placeholder}

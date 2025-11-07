@@ -6,11 +6,11 @@ import { useRouter } from 'next/navigation';
 import Button from '@/commons/components/button';
 import Input from '@/commons/components/input';
 import { EMOTION_META, Emotion, EMOTIONS } from '@/commons/constants/enum';
-import { useDeleteDiary } from '../hooks/index.delete.hook';
 import { useDiaryDetailBinding } from './hooks/index.binding.hook';
 import { useRetrospectBinding } from './hooks/index.retrospect.binding.hook';
 import { useRetrospectForm } from './hooks/index.retrospect.form.hook';
 import { useUpdateDiary } from './hooks/index.update.hook';
+import { useDeleteDiaryDetail } from './hooks/index.delete.hook';
 
 import styles from './styles.module.css';
 
@@ -19,7 +19,7 @@ export default function DiariesDetail() {
   const { register, handleSubmit, errors, isDisabled } = useRetrospectForm(diaryId || 0);
   const { retrospects: retrospectsList, isLoading: isRetrospectsLoading } = useRetrospectBinding(diaryId);
   const router = useRouter();
-  const { deleteDiary } = useDeleteDiary();
+  const { openDeleteModal, isDeleting } = useDeleteDiaryDetail(diaryId || 0);
   
   // 수정 기능 훅
   const {
@@ -51,11 +51,7 @@ export default function DiariesDetail() {
   };
 
   const handleDelete = () => {
-    if (confirm('정말 삭제하시겠습니까?')) {
-      if (diaryId) {
-        deleteDiary(diaryId);
-      }
-    }
+    openDeleteModal();
   };
 
   const handleEdit = () => {
@@ -241,6 +237,7 @@ export default function DiariesDetail() {
           theme="light" 
           size="medium"
           onClick={handleDelete}
+          disabled={isDeleting}
           data-testid="diary-detail-delete-button"
         >
           삭제

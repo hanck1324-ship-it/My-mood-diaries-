@@ -19,6 +19,7 @@ export interface ModalProps {
   onConfirm?: () => void;
   onCancel?: () => void;
   className?: string;
+  'data-testid'?: string;
 }
 
 export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
@@ -34,6 +35,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
       onConfirm,
       onCancel,
       className,
+      'data-testid': dataTestId,
     },
     ref
   ) => {
@@ -48,10 +50,10 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
       .join(' ');
 
     return (
-      <div ref={ref} className={modalClasses}>
+      <div ref={ref} className={modalClasses} data-testid={dataTestId}>
         <div className={styles.content}>
-          <h2 className={styles.title}>{title}</h2>
-          <p className={styles.description}>{description}</p>
+          <h2 className={styles.title} data-testid={dataTestId ? `${dataTestId}-title` : undefined}>{title}</h2>
+          <p className={styles.description} data-testid={dataTestId ? `${dataTestId}-description` : undefined}>{description}</p>
         </div>
 
         <div className={styles.buttonArea}>
@@ -63,6 +65,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                 theme={theme}
                 onClick={onCancel}
                 className={styles.buttonDual}
+                data-testid={dataTestId ? `${dataTestId}-cancel` : undefined}
               >
                 {cancelText}
               </Button>
@@ -72,6 +75,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                 theme={theme}
                 onClick={onConfirm}
                 className={styles.buttonDual}
+                data-testid={dataTestId ? `${dataTestId}-confirm` : undefined}
               >
                 {confirmText}
               </Button>
@@ -84,6 +88,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
               theme={theme}
               onClick={onConfirm}
               className={styles.buttonSingle}
+              data-testid={dataTestId ? `${dataTestId}-confirm` : undefined}
             >
               {confirmText}
             </Button>

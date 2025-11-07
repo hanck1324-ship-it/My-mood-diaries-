@@ -12,10 +12,13 @@
 .search {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   width: 1168px;
-  height: 48px;
+  min-height: 48px;
+  gap: 16px;
+  position: relative;
+  z-index: 10;
+  box-sizing: border-box;
 }
 
 .searchLeft {
@@ -24,23 +27,30 @@
   align-items: center;
   gap: 16px;
   flex: 1;
-  min-width: 0; /* 플렉스 아이템이 줄어들 수 있도록 */
+  min-width: 0;
+  overflow: visible;
 }
 
 .selectBox {
   width: 160px;
-  flex-shrink: 0; /* 줄어들지 않도록 고정 */
+  flex-shrink: 0;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 100;
 }
 
 .searchBar {
   flex: 1;
-  min-width: 200px; /* 최소 너비 보장 */
-  max-width: 600px; /* 최대 너비 제한으로 겹침 방지 */
+  min-width: 0;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
 .writeButton {
   width: 120px;
-  flex-shrink: 0; /* 줄어들지 않도록 고정 */
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .gap2 {
